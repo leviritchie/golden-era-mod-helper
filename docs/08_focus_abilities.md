@@ -56,11 +56,11 @@ Keep design fields that your packer expects, even if Core does not store them:
 
 Validators that strip unknown-but-owned fields will destroy your review notes.
 
-## The helper utility (revival)
-
-The older local ability editor wrote reviewable `ability_overrides` JSON: templates, existing specials, Focus, cooldown, icons. This package revives that job. It writes only into this clone’s `sandbox/` folder.
+## Focus assigner
 
 Studio → Focus ability assigner. Field-by-field help: [21_tools.md](21_tools.md).
+
+The assigner writes overlay-review `ability_overrides` JSON: templates, existing specials, Focus, cooldown, icons. Output lands in `sandbox/`.
 
 CLI (run from the folder that contains `cli.py`):
 
@@ -74,7 +74,7 @@ python cli.py edit-existing-special --faction-sid homm3_example --unit-sid h3_ex
 
 Output: `sandbox/ability_overrides_<faction>.json` (overlay-review JSON, not a Core row).
 
-Your overlay generator (in your own repo) is what later turns that file into `units_logics` / `units_views`. This helper does not call that generator. Tooltip text must match the buff SID. `magic_shorten_shadow_effect_1` is Weaken Attack/Defense, not stun.
+A Core overlay packer in a separate project is what later turns that file into `units_logics` / `units_views`. This helper does not pack. Tooltip text must match the buff SID. `magic_shorten_shadow_effect_1` is Weaken Attack/Defense, not stun.
 
 ## Hire UI NREs
 

@@ -1,16 +1,16 @@
 # Studio widgets (short index)
 
-If you have never used this kit, do not stop on this page. Read [21_tools.md](21_tools.md). That document explains every page, every form field, every CLI argument, what a successful save looks like, and what the game will not do.
+Read [21_tools.md](21_tools.md) for every page, form field, CLI argument, what a successful save looks like, and what the game will not do.
 
-This page is only a map.
+This page is a map.
 
-The studio is a website that runs on **your** computer:
+The studio is a local form UI:
 
 ```text
 python cli.py studio --port 8777
 ```
 
-Then open `http://127.0.0.1:8777`. It does not deploy mods. Leave the terminal open while you use the site.
+Then open `http://127.0.0.1:8777`. It does not deploy mods. Keep that process running while using the studio.
 
 | Left-nav page | What you are doing | Writes under `sandbox/` |
 | --- | --- | --- |
@@ -24,4 +24,4 @@ Then open `http://127.0.0.1:8777`. It does not deploy mods. Leave the terminal o
 
 Invalid Focus icon keys (localization tokens, `@4x` atlas names) are refused.
 
-After a save, open **Sandbox files** in the left nav, or look on disk under `sandbox/` in this clone. Those files are not in the game until you copy them into your own overlay.
+After a save, open **Sandbox files** in the left nav, or look on disk under `sandbox/` in the repository folder. Those files are not in the game until they are copied into a Core overlay.

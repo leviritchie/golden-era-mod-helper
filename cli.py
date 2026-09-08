@@ -35,7 +35,7 @@ def main(argv: list[str] | None = None) -> int:
         description=(
             "Olden Era mod helper (examples from how the Golden Era mod was made). "
             "Run this from the folder that contains cli.py. "
-            "Every writer saves only under ./sandbox in this clone. "
+            "Every writer saves only under ./sandbox in the local repository. "
             "This does not install files into Olden Era or install Golden Era. "
             "Read docs/20_glossary.md and docs/21_tools.md before the first command."
         )
@@ -152,7 +152,7 @@ def main(argv: list[str] | None = None) -> int:
 
     pages = sub.add_parser(
         "pages",
-        help="Build a static documentation website into ./site (for GitHub Pages). Does not install a mod and does not write sandbox JSON.",
+        help="Build static documentation into ./site. Does not install a mod and does not write sandbox JSON.",
     )
 
     args = parser.parse_args(argv)

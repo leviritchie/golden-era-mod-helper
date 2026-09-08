@@ -11,7 +11,7 @@ KIT_NAME = "golden-era-mod-helper"
 
 OVERLAY_REVIEW_NOTE = (
     "Sandbox overlay-review file from this teaching kit. "
-    "It is not a Core.zip row. A packer you own must emit the live archive members "
+    "It is not a Core.zip row. A Core overlay packer must emit the live archive members "
     "(for creatures: units_logics and units_views with matching array lengths). "
     "This kit does not pack or install a mod. Proof: source/static only."
 )

@@ -1,21 +1,15 @@
 # What every tool does
 
-If you have never used this kit, and you have never modded Olden Era, this page is the map.
+Documentation for the Golden Era Mod Helper. **Olden Era** is the game. **Golden Era** is an example *mod*. The jobs below are how that mod was made. They apply to other Olden Era mods. This page does not install Golden Era.
 
-**Olden Era** is the game. **Golden Era** is an example *mod* for that game. The tools and jobs below are how Golden Era was made. Use them for any Olden Era mod. This page does not install Golden Era.
+Local tools either explain a job or write overlay-review JSON into `sandbox/` next to `cli.py`. They do not change the running game. A Core overlay packer is a separate program.
 
-You can **read** this page in a browser with no Python:
-
-https://leviritchie.github.io/golden-era-mod-helper/21_tools.html
-
-Nothing here is a Steam installer. Nothing here finds your game folder. Every local tool either **explains** a job or **writes a practice file** into a folder named `sandbox` at the root of this clone. The running game will not change until **you** copy those files into an overlay and plugin that you own.
-
-There are two ways to run the same writers on your computer (GitHub Pages cannot do this; it can only show documentation):
+Two ways to run the writers (not from this documentation website):
 
 1. **Studio** — a local web page with forms.
 2. **CLI** — commands that start with `python cli.py`.
 
-They write the same kinds of JSON. Use whichever you can operate.
+They write the same kinds of JSON.
 
 If a word on this page is new (SID, Core.zip, Focus, Harmony, donor), open [20_glossary.md](20_glossary.md) first.
 
@@ -27,15 +21,15 @@ Imagine three separate desks:
 
 | Desk | What lives there | Does this kit sit there? |
 | --- | --- | --- |
-| This clone | Docs, forms, and a `sandbox/` folder of practice JSON | Yes. This is the only desk the tools write to. |
-| Your overlay / plugin | The packer and C# that actually change Olden Era | No. You copy shapes from sandbox into that work. |
+| Local repository | Docs, forms, and a `sandbox/` folder of overlay-review JSON | Yes. This is the only desk the tools write to. |
+| Overlay / plugin | The Core packer and C# that change Olden Era | No. Copy shapes from sandbox into that work. |
 | The installed game | `Core.zip`, BepInEx, Steam | No. The tools refuse those paths. |
 
-If you click **Assign Focus ability to sandbox** and then launch Olden Era, the new button will **not** be there. That is expected. The click only created a text file in this clone.
+Assigning a Focus ability to sandbox and then launching Olden Era does **not** add a combat button. The writer only created a text file under `sandbox/`.
 
-Sandbox JSON is **overlay-review** shape: fields a packer you own would later turn into Core members. It is not a `units_logics` / `units_views` row you can drop into `Core.zip`. This kit does not include Golden Era’s overlay packer.
+Sandbox JSON is **overlay-review** shape: fields a Core overlay packer later turns into Core members. It is not a `units_logics` / `units_views` row to drop into `Core.zip`. This kit does not pack Core.zip.
 
-Obfuscated type names and Golden Era plugin class names in the hook catalog are **examples from one pin**, not a public API. Re-pin on your `GameAssembly.dll`.
+Obfuscated type names and Golden Era plugin class names in the hook catalog are **examples from one pin**, not a public API. Re-pin on the installed `GameAssembly.dll`.
 
 ---
 
@@ -66,17 +60,17 @@ You should see words such as `studio`, `test`, `scaffold-faction`, `assign-focus
 python cli.py studio --port 8777
 ```
 
-Leave that terminal window open. In a browser, open `http://127.0.0.1:8777`.
+Keep that process running. In a browser, open `http://127.0.0.1:8777`.
 
 You should see a dark page titled **Golden Era Mod Helper** and a list of links on the left. The site runs only on your computer. Closing the terminal stops it.
 
 7. Click **Glossary**, then come back to **What the tools do**. Then click **Faction scaffold**, keep the example values, and click the gold button.
 
-Under the form you should see a green status line and a list of file paths. Those files now exist under `sandbox/faction_homm3_example/` in this clone. Olden Era still has not changed. Open `faction.json` and read `kitMeta`: `fileKind` is `overlay-review`, `packed` is false.
+Under the form there should be a green status line and a list of file paths. Those files now exist under `sandbox/faction_homm3_example/` in the repository folder. Olden Era still has not changed. Open `faction.json` and read `kitMeta`: `fileKind` is `overlay-review`, `packed` is false.
 
 8. Click **Sandbox files** on the left. You should see the same paths listed.
 
-That is the whole loop: fill a form (or run a CLI command) → a practice file appears in `sandbox/` → you later copy it into your own pipeline.
+That is the whole loop: fill a form (or run a CLI command) → a practice file appears in `sandbox/` → copy it into a Core overlay pipeline later.
 
 ---
 
@@ -100,7 +94,7 @@ If the status line is red, read the error. Typical causes:
 
 ## How to find the files on disk
 
-The clone folder contains `cli.py`, `README.md`, and `sandbox/`.
+The repository folder contains `cli.py`, `README.md`, and `sandbox/`.
 
 Examples after a first try:
 
@@ -152,7 +146,7 @@ The studio does not upload anything. It does not find Steam.
 
 **This is not** a hero button. Hero buttons are the Hero abilities page.
 
-**This is not** a Core ability row. A packer you own must emit `units_logics` and `units_views`. Tooltip text must match the buff SID you paste. `magic_shorten_shadow_effect_1` is Weaken Attack/Defense in live Core, not stun.
+**This is not** a Core ability row. A Core overlay packer must emit `units_logics` and `units_views`. Tooltip text must match the buff SID. `magic_shorten_shadow_effect_1` is Weaken Attack/Defense in live Core, not stun.
 
 **Two forms on the same page**
 
@@ -188,7 +182,7 @@ A template is a *shape*, not a finished combat verb. You still must point it at 
 | `focus_ranged_shot` | Ranged attack with optional projectile key | Shooters |
 | `repair_heal_percent` | Ally `heal_percent`, Gremlin Mechanic-like | Repair / heal |
 | `focus_spell_effect` | Apply a vanilla spell effect envelope | You will fill a real spell SID from live Core |
-| `focus_stun_melee` | Melee + stun-style buff | Only after you paste a live Core stun buff SID. Empty on purpose. |
+| `focus_stun_melee` | Melee + stun-style buff | After a live Core stun buff SID is pasted. The SID field starts empty. |
 | `passive_text_only` | Text only | The behavior already exists; you only need a card |
 
 ### Fields (edit-existing form)
@@ -197,9 +191,9 @@ A template is a *shape*, not a finished combat verb. You still must point it at 
 | --- | --- |
 | Slot | `abilities` (active buttons), `passives` (always-on), or `alternativeAttacks` (extra attack modes) |
 | Slot index | `0` is the first item in that list, `1` is the second, and so on |
-| Enabled | Uncheck this to turn that slot off on purpose |
+| Enabled | Uncheck to disable that slot |
 
-**After you click save.** Open the JSON it printed. That file is **not** in the game yet. Your overlay (the packer you write or adopt) must turn it into `units_logics` + `units_views` + language rows. Logic and view array lengths must match or combat can crash while it builds the action bar.
+**After save.** Open the JSON it printed. That file is **not** in the game yet. A Core overlay packer must turn it into `units_logics` + `units_views` + language rows. Logic and view array lengths must match or combat can crash while it builds the action bar.
 
 **Common mistakes**
 
@@ -367,19 +361,19 @@ These labels are an honesty ladder. A generated JSON file is not the installed g
 
 ## Tool: Sandbox files (read only)
 
-Lists practice files this kit already wrote in this clone. If the list is empty, you have not submitted a writer yet. These files are not in the game.
+Lists overlay-review files already written under `sandbox/`. An empty list means no writer has been submitted yet. These files are not in the game.
 
 ---
 
 ## CLI commands (same writers, no browser)
 
-Run these from the clone root (the folder with `cli.py`). Add `-h` after any command to see its arguments, for example `python cli.py assign-focus -h`.
+Run these from the folder that contains `cli.py`. Add `-h` after any command to see its arguments, for example `python cli.py assign-focus -h`.
 
 ### `python cli.py test`
 
 Runs the automated checks in `tests/`. These prove the writers refuse to save outside `sandbox/` and that sample JSON matches the schemas.
 
-**What a pass means.** Isolation and schemas are intact on this clone.
+**What a pass means.** Isolation and schemas are intact in this repository.
 
 **What a pass does not mean.** Your game install is fine. A faction is playable. Combat works.
 
@@ -389,7 +383,7 @@ Prints the Focus template ids, labels, categories, and risk tags, one per line, 
 
 ### `python cli.py pages`
 
-Builds a static documentation website into `./site`. GitHub Actions publishes that folder to GitHub Pages. This command does **not** write sandbox JSON and does not install a mod. Open `site/index.html` locally if you want to preview without deploying.
+Builds static documentation into `./site`. Does **not** write sandbox JSON and does not install a mod. Open `site/index.html` to preview locally.
 
 ### `python cli.py studio`
 

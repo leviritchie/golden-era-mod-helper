@@ -41,7 +41,7 @@ The scaffold’s sample creature line uses a placeholder donor unit from the sam
 
 ## Core output paths
 
-Core output paths belong next to identity so packers do not guess. Treat them as a member list, not a drop-in filename. Live overlays often prefix faction files (`DB/fractions/13_homm3_castle.json`). The packer you own chooses the number.
+Core output paths belong next to identity so packers do not guess. Treat them as a member list, not a drop-in filename. Live overlays often prefix faction files (`DB/fractions/13_homm3_castle.json`). The overlay packer chooses the number.
 
 ## Unit lines
 

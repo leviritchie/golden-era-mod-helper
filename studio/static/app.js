@@ -80,10 +80,10 @@ async function render() {
 
 async function renderHome() {
   const meta = await getJson("/api/meta");
-  sandboxNote.textContent = `Practice files are written under ${meta.sandbox}. This site does not install a game mod.`;
+  sandboxNote.textContent = `Practice files are written under ${meta.sandbox}. This studio does not install a game mod.`;
   const root = el(`
     <section>
-      <p class="lede">If you have never modded Olden Era, start with <a href="#docs/glossary">the glossary</a>, then <a href="#docs/tools">what every tool does</a>. Olden Era is the game. Golden Era is an example mod for that game; this kit shows how that mod was made. This studio is a website that runs only on your computer. Each form writes a practice JSON file into a folder named <code>sandbox</code> inside this clone. The game will not change until you copy those files into your own overlay and plugin.</p>
+      <p class="lede">Start with <a href="#docs/glossary">the glossary</a>, then <a href="#docs/tools">what every tool does</a>. Olden Era is the game. Golden Era is an example mod; this kit shows how that mod was made. This studio is a local form UI. Each form writes overlay-review JSON into <code>sandbox</code> next to <code>cli.py</code>. The game does not change until those files are copied into an overlay and plugin.</p>
       <p>A <strong>faction</strong> (a custom town with units and heroes) is many jobs. Finishing unit stats does not prove town clicks work. Finishing a Harmony patch does not prove Core.zip contains the row.</p>
       <div class="grid">
         <article class="card"><h3>1. Core data</h3><p>JSON inside the game archive <code>Core.zip</code>. Units, heroes, buildings, laws, visible text. Copy complete vanilla shapes, then change ids and payloads. This kit does not pack Core.zip.</p></article>
@@ -154,7 +154,7 @@ async function renderAbility() {
   const root = el(`
     <section>
       <h2>Focus ability assigner</h2>
-      <p class="lede">A Focus ability is a special button on a <strong>creature</strong> you selected in combat. The player resource is called Focus. The JSON field is called <code>energyLevel</code>. This form does not edit the game. It writes an <strong>overlay-review</strong> file: a checklist of fields for a packer you own. It is not a Core.zip <code>units_logics</code> row.</p>
+      <p class="lede">A Focus ability is a special button on a <strong>creature</strong> selected in combat. The player resource is called Focus. The JSON field is called <code>energyLevel</code>. This form does not edit the game. It writes an <strong>overlay-review</strong> file: a field checklist for a Core overlay packer. It is not a Core.zip <code>units_logics</code> row.</p>
       <p>Use the first form to <strong>add</strong> a templated ability. Use the second form to <strong>change an ability that already exists</strong> (turn it off, change the Focus cost, rename it). Field-by-field help: <a href="#docs/tools">What every tool does</a>.</p>
       <form id="abilityForm">
         <label class="check"><input type="checkbox" name="fromSample" checked> Start from the in-package sample (Example Pikeman line)</label>
@@ -233,7 +233,7 @@ async function submitAbility(root, url, form) {
     if (data.rank) data.rank = Number(data.rank);
     if (data.index) data.index = Number(data.index);
     const result = await postJson(url, data);
-    target.innerHTML = `${statusBox(true, `Wrote ${result.wrote}. Overlay-review JSON only. Not a Core.zip row. The game was not changed.`)}<p class="hint">The block below is a checklist for a packer you own. It must emit units_logics and units_views. This kit does not pack.</p><pre>${escapeHtml(JSON.stringify(result.document, null, 2))}</pre>`;
+    target.innerHTML = `${statusBox(true, `Wrote ${result.wrote}. Overlay-review JSON only. Not a Core.zip row. The game was not changed.`)}<p class="hint">The block below is a checklist for a Core overlay packer. It must emit units_logics and units_views. This kit does not pack.</p><pre>${escapeHtml(JSON.stringify(result.document, null, 2))}</pre>`;
   } catch (error) {
     target.innerHTML = statusBox(false, error.message);
   }

@@ -2,8 +2,8 @@
 
 This folder is the only place the helper is allowed to write.
 
-When you click a studio form or run a `python cli.py` writer, an overlay-review JSON (or Markdown) file appears here. Those files are **not** Core.zip rows and are **not** in the game. Copy shapes into your own packer later.
+When a studio form or `python cli.py` writer runs, overlay-review JSON (or Markdown) appears here. Those files are **not** Core.zip rows and are **not** in the game. Copy shapes into a Core overlay packer separately.
 
-If this folder only contains this README, you have not generated anything yet.
+If this folder only contains this README, no writer has been submitted yet.
 
 Generated files are gitignored so practice dumps do not get committed by accident.

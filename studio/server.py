@@ -99,7 +99,7 @@ class StudioHandler(BaseHTTPRequestHandler):
                     {
                         "title": "Golden Era Mod Helper",
                         "sandbox": str(SANDBOX_DIR),
-                        "isolation": "writes only under this clone's sandbox/ folder",
+                        "isolation": "writes only under sandbox/ in the local repository",
                         "donors": sorted(DEFAULT_DONORS),
                         "donorExamples": DEFAULT_DONORS,
                         "lanes": LANE_HELP,
@@ -295,7 +295,7 @@ def serve(host: str = "127.0.0.1", port: int = 8777) -> None:
     httpd = ThreadingHTTPServer((host, port), StudioHandler)
     print(f"Olden Era mod helper studio: http://{host}:{port}", flush=True)
     print(f"Sandbox writes: {SANDBOX_DIR}", flush=True)
-    print("This server writes only under sandbox/ in this clone. It does not install a game mod.", flush=True)
+    print("This server writes only under sandbox/. It does not install a game mod.", flush=True)
     httpd.serve_forever()
 
 

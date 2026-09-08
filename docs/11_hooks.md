@@ -49,4 +49,4 @@ Buff got-buff: DiffableCs index 39 is **not** live Method_39 (that one raises Ch
 
 ## C# examples
 
-See `csharp/Examples/`. They use placeholder names on purpose.
+See `csharp/Examples/`. They use placeholder names so they stay readable after live names drift.

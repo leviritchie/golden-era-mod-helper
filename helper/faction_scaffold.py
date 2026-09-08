@@ -184,8 +184,8 @@ def scaffold_faction(
             "donorFactionCoreSid": example["donorFactionCoreSid"],
             "pathNote": (
                 "These paths are a sketch of Core members. A live overlay often prefixes "
-                "faction files (example: DB/fractions/13_homm3_castle.json). The packer you "
-                "own chooses the numbered prefix. Do not treat this sketch as a drop-in path."
+                "faction files (example: DB/fractions/13_homm3_castle.json). The overlay packer "
+                "chooses the numbered prefix. Do not treat this sketch as a drop-in path."
             ),
         },
         "unitVariants": ["", "_upg", "_upg_alt"],
@@ -289,7 +289,7 @@ def _checklist_markdown(manifest: dict[str, Any]) -> str:
             "- [ ] Localization tokens for faction name and description exist in `Lang/english/texts`.",
             "- [ ] Every custom id is unique. Duplicate ids crash native dictionaries.",
             f"- [ ] `donorFactionSid` `{identity['donorFactionSid']}` and `nativeBiome` `{identity['nativeBiome']}` were copied from live Core (example source: {example.get('source', 'n/a')}).",
-            "- [ ] Core faction JSON path uses the numbered prefix your packer owns (`DB/fractions/13_homm3_castle.json` is an overlay example, not a drop-in name).",
+            "- [ ] Core faction JSON path uses the numbered prefix the overlay packer assigns (`DB/fractions/13_homm3_castle.json` is an overlay example, not a drop-in name).",
             "",
             "## Units",
             "",

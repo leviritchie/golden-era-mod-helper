@@ -51,7 +51,7 @@ def _nav(current: str) -> str:
             ("hooks.html", "Hook catalog"),
             ("silent.html", "Silent miss doctor"),
             ("proof.html", "Proof labels"),
-            ("writers.html", "Practice file writers"),
+            ("writers.html", "Local tools"),
         ]
     )
     links: list[str] = []
@@ -77,7 +77,7 @@ def _page(title: str, current: str, body: str, *, extra_class: str = "doc") -> s
       <p class="kicker">Olden Era modding docs · examples from the Golden Era mod</p>
       <h1>Golden Era Mod Helper</h1>
     </div>
-    <p class="sandbox-note">You can read this in a browser with no Python and no game install. Forms that write files still need a local clone.</p>
+    <p class="sandbox-note">Public documentation. File-writing tools run from a local copy of the repository, not from this website.</p>
   </header>
   <div class="shell">
     <nav class="nav" aria-label="Documentation">
@@ -100,31 +100,32 @@ def _home_body() -> str:
         href = Path(row["file"]).with_suffix(".html").name
         cards.append(
             f'<article class="card"><h3><a href="{html.escape(href)}">{html.escape(row["title"])}</a></h3>'
-            f"<p>Open this page next if you have never used the kit.</p></article>"
+            f"<p>Start here if Olden Era modding is new.</p></article>"
         )
     return f"""
-        <p class="lede">This is a public documentation website for people who have never modded <em>Heroes of Might and Magic: Olden Era</em>. Olden Era is the game. Golden Era is an example <em>mod</em> for that game. These pages show how Golden Era was made; the same jobs apply to other Olden Era mods. You do not need Python, Steam, or a clone to read this site.</p>
+        <p class="lede">Documentation for modding <em>Heroes of Might and Magic: Olden Era</em>, using worked examples from the Golden Era mod. Olden Era is the game. Golden Era is an example <em>mod</em>. The same jobs apply to other Olden Era mods.</p>
+        <p>Reading these pages does not require Python, Steam, or a game install.</p>
         <p>Start here, in this order:</p>
         <div class="grid">{"".join(cards)}</div>
-        <h2>What this site can do</h2>
-        <p>GitHub can host a small website from this repository. That product is called <strong>GitHub Pages</strong>. It can show these articles, the hook catalog, and the silent-miss questions.</p>
-        <h2>What this site cannot do</h2>
-        <p>GitHub Pages is a stack of HTML files. It has no Python process and no folder on <em>your</em> computer to write into. The Focus assigner, faction scaffold, and other writers still need a clone:</p>
+        <h2>What this website is</h2>
+        <p>Articles, a hook-family catalog, and silent-miss diagnoses. It does not install a mod, write files, or pack <code>Core.zip</code>.</p>
+        <h2>File-writing tools</h2>
+        <p>The Focus assigner, faction scaffold, and other writers run on a local copy of the repository:</p>
         <pre><code>git clone {html.escape(REPO_URL)}.git
 cd golden-era-mod-helper
 python cli.py studio --port 8777</code></pre>
-        <p>Then open <code>http://127.0.0.1:8777</code> on your machine. Details: <a href="writers.html">Practice file writers</a>.</p>
+        <p>Then open <code>http://127.0.0.1:8777</code>. Details: <a href="writers.html">Local tools</a>.</p>
+        <p>Repository: <a href="{html.escape(REPO_URL)}">{html.escape(REPO_URL)}</a></p>
         <p>This website: <a href="{html.escape(SITE_URL)}">{html.escape(SITE_URL)}</a></p>
-        <p>Public clone: <a href="{html.escape(REPO_URL)}">{html.escape(REPO_URL)}</a></p>
 """
 
 
 def _writers_body() -> str:
     return """
-        <h2>Practice file writers</h2>
-        <p class="lede">The local studio and <code>python cli.py</code> commands write overlay-review JSON into a <code>sandbox</code> folder inside a clone. That cannot happen on this GitHub Pages site. Those files are checklists for a packer you own. They are not Core.zip rows.</p>
-        <p>A GitHub Wiki would have the same limit: it can store markdown pages, but it cannot run the helper or install a mod.</p>
-        <h3>What to clone for</h3>
+        <h2>Local tools</h2>
+        <p class="lede">This documentation website is read-only. Overlay-review JSON is written by the studio or <code>python cli.py</code> in a local copy of the repository, under <code>sandbox/</code> next to <code>cli.py</code>.</p>
+        <p>Those files are field checklists for a Core overlay packer. They are not <code>Core.zip</code> members, and they do not install a mod.</p>
+        <h3>Writers in the repository</h3>
         <ul>
           <li>Focus ability assigner</li>
           <li>Faction scaffold</li>
@@ -133,9 +134,9 @@ def _writers_body() -> str:
           <li>Building / town plan</li>
           <li>Faction law override</li>
         </ul>
-        <p>Field-by-field help for those tools lives in <a href="21_tools.html">What every tool does</a>. After you clone:</p>
+        <p>Field-by-field help: <a href="21_tools.html">What every tool does</a>.</p>
         <pre><code>python cli.py studio --port 8777</code></pre>
-        <p>Leave that terminal open and use the local website. Closing the terminal stops it.</p>
+        <p>Keep that process running while using the local studio. Stop it with Ctrl+C.</p>
 """
 
 
@@ -207,7 +208,7 @@ def build_site(output_dir: Path | None = None) -> Path:
 
     pages: dict[str, tuple[str, str, str]] = {
         "index.html": ("Overview", "index.html", _home_body()),
-        "writers.html": ("Practice file writers", "writers.html", _writers_body()),
+        "writers.html": ("Local tools", "writers.html", _writers_body()),
         "hooks.html": ("Hook catalog", "hooks.html", _hooks_body()),
         "silent.html": ("Silent miss doctor", "silent.html", _silent_body()),
         "proof.html": ("Proof labels", "proof.html", _proof_body()),

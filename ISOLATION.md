@@ -1,24 +1,23 @@
-# Isolation (why this kit cannot install your mod)
+# Isolation
 
-This repository is a **teaching kit**. It writes practice files only.
+This repository is a **teaching kit**. It writes overlay-review files under `sandbox/` only.
 
-## What it will never do
+## Writers never
 
-- Write outside the `sandbox/` folder inside this clone
+- Write outside `sandbox/` in the local repository
 - Write into a game install (`Core.zip`, `StreamingAssets`, `BepInEx`, `GameAssembly.dll` in the path)
 - Pack or patch the game
-- Emit Core.zip members (`units_logics`, numbered `DB/fractions/13_….json`, …). Sandbox JSON is overlay-review only.
-- Import a private overlay generator from some other repo
+- Emit Core.zip members (`units_logics`, numbered `DB/fractions/13_….json`, …)
 
-There is no command-line flag that turns those writes on. That omission is the product.
+Sandbox JSON is overlay-review only. There is no flag that aims writers at a game install.
 
 ## Why sandbox exists
 
-If a documentation tool could write into a live `Core.zip` or plugin folder, a form click could damage a working game. Practice files stay here. **You** copy them into your own pipeline when you are ready.
+A form that could write into a live `Core.zip` or plugin folder could damage a working game. Practice files stay in `sandbox/`. Copy shapes into a Core overlay pipeline separately.
 
-## How to prove isolation on your machine
+## How to prove isolation
 
-From this clone:
+From the folder that contains `cli.py`:
 
 ```text
 python cli.py test
@@ -26,4 +25,4 @@ python cli.py test
 
 Those tests fail if a writer can save outside `sandbox/`.
 
-The documentation website under `site/` is a separate compiler (`python cli.py pages`). It is not a sandbox write. GitHub Pages publishes that HTML. It still cannot write into a game install.
+`python cli.py pages` builds static documentation. That output still cannot write into a game install.

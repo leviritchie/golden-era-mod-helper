@@ -1,10 +1,10 @@
 # Getting started (split the job)
 
-If the words Core.zip, SID, Focus, or Harmony are new, read [20_glossary.md](20_glossary.md) first, then [21_tools.md](21_tools.md) so you know what each button and command actually writes. The same pages are on the public site: https://leviritchie.github.io/golden-era-mod-helper/
+If Core.zip, SID, Focus, or Harmony are new, read [20_glossary.md](20_glossary.md), then [21_tools.md](21_tools.md).
 
-**Olden Era** is the game you are modding. **Golden Era** is an example mod. This order of jobs is how that mod was built; follow it for a different Olden Era town as well.
+**Olden Era** is the game. **Golden Era** is an example mod. The job order below is how that mod was built. Follow it for a different Olden Era town as well.
 
-This page is the **order of jobs** for a new custom town. It is not a promise that this kit installs anything. This kit only writes practice files into `sandbox/`.
+This page is the **order of jobs** for a new custom town. The kit writes overlay-review files into `sandbox/`. It does not install a faction.
 
 Do not start by writing a Harmony patch. Do not start by replacing town clicks. Do not start by pointing a unit’s `mesh` field at a custom folder the game cannot load.
 
@@ -60,8 +60,8 @@ A later step is not implied by an earlier one. A JSON file on disk is not a pick
 
 See [21_tools.md](21_tools.md) for what each form and CLI command writes, field by field.
 
-All writes stay in `sandbox/` inside this clone.
+All writes stay in `sandbox/` in the local repository.
 
 ## Connecting to a live game
 
-That connection is **your** overlay, plugin, and install. Copy shapes from the sandbox into your pipeline. Do not point this helper at `Core.zip` as a write target. There is no switch for that, on purpose.
+That connection is a separate overlay, plugin, and install. Copy shapes from the sandbox into that pipeline. Do not point this helper at `Core.zip` as a write target.

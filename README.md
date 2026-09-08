@@ -8,9 +8,9 @@ Public clone: https://github.com/leviritchie/golden-era-mod-helper
 
 **Read in a browser (no Python):** https://leviritchie.github.io/golden-era-mod-helper/
 
-This repository does **not** install a faction into your game. It does not need your Steam folder. Clone it anywhere, run Python, get **overlay-review** JSON in `sandbox/` (checklists for a packer you own, not Core.zip rows), then copy those shapes into **your** overlay and plugin.
+This repository does **not** install a faction. It does not need a Steam folder. Clone it anywhere, run Python, and write **overlay-review** JSON in `sandbox/` (field checklists for a Core overlay packer, not Core.zip rows). Copy those shapes into an overlay and plugin separately.
 
-## If you have never done this
+## If Olden Era modding is new
 
 Read these three files in order (same pages on the public site, or in `docs/` after you clone):
 
@@ -28,13 +28,13 @@ Then open [PRINCIPLES.md](PRINCIPLES.md) before you write a Harmony patch.
 
 ## Run the studio
 
-In a terminal, change directory to **this clone** (the folder that contains `cli.py`):
+In a terminal, change directory to the folder that contains `cli.py`:
 
 ```text
 python cli.py studio --port 8777
 ```
 
-Open `http://127.0.0.1:8777`. Leave the terminal open while you use the site. The site is only on your computer.
+Open `http://127.0.0.1:8777`. Keep that process running while using the studio. The studio binds to the local machine only.
 
 The first two items in the documentation list inside the studio are **Glossary** and **What every tool does**.
 
@@ -50,7 +50,7 @@ Full command list and argument meanings: [docs/21_tools.md](docs/21_tools.md).
 
 ## What gets written
 
-Only files under `sandbox/` in this clone. The writers refuse paths outside that folder, and they refuse path pieces that look like a game install (`Core.zip`, `StreamingAssets`, `BepInEx`, `GameAssembly.dll`).
+Only files under `sandbox/` in the local repository. The writers refuse paths outside that folder, and they refuse path pieces that look like a game install (`Core.zip`, `StreamingAssets`, `BepInEx`, `GameAssembly.dll`).
 
 Generated sandbox files are gitignored except `sandbox/README.md`.
 

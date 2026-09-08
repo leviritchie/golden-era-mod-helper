@@ -129,7 +129,7 @@ Stock Heroic Strike / mage commander attacks use `absolute_damage` and ignore ca
 
 ## 15. This helper cannot ship your mod
 
-The widgets write overlay-review files in `sandbox/` so you can learn the shapes. They are not Core.zip rows. Connecting those files to a live overlay, plugin, and install is your pipeline. Keep that pipeline fail-closed and validated.
+The widgets write overlay-review files in `sandbox/` so the shapes can be learned. They are not Core.zip rows. Connecting those files to a live overlay, plugin, and install is a separate pipeline. Keep that pipeline fail-closed and validated.
 
 ## 16. Do not invent HoMM3-to-Olden-Era lookups
 

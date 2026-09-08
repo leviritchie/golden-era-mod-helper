@@ -1,6 +1,6 @@
 """Fail-closed write isolation for the creator helper.
 
-Nothing in this package may write outside this clone's ``sandbox/`` folder.
+Nothing in this package may write outside the repository ``sandbox/`` folder.
 """
 
 from __future__ import annotations

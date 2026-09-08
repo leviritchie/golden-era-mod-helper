@@ -23,7 +23,7 @@ A **mod** in this kit is extra data and/or extra plugin code that the game loads
 1. Rows inside the game’s data archive (**Core.zip**).
 2. Optional **plugin** files (a `.dll`, pictures, 3D bundles) loaded by **BepInEx**.
 
-This GitHub kit is **not** a finished faction you install. It writes **practice files** into a folder named `sandbox/` inside this clone. You copy those shapes into *your* overlay and plugin later.
+This kit is **not** a finished faction to install. It writes overlay-review files into `sandbox/` in the local repository. Copy those shapes into a Core overlay and plugin separately.
 
 ## Files and ids
 
@@ -49,7 +49,7 @@ It is a zip archive of JSON (and related files). The running game reads **this a
 
 **Localization** files (`Lang/english/texts/…` inside Core) hold the sentences the player reads.
 
-**Packing / overlay** means a tool you own that writes your JSON into `Core.zip`. This kit does not pack. There is no “install to my Steam folder” button, on purpose.
+**Packing / overlay** means a program that writes JSON into `Core.zip`. This kit does not pack. It has no “install to my Steam folder” action.
 
 ## Plugin, BepInEx, Harmony (layer 2)
 
@@ -105,19 +105,19 @@ A **specialization** is a hero’s specialty bonus list, not the commander-attac
 
 ## This kit’s own words
 
-The **studio** is a small website that runs on your computer (`http://127.0.0.1:8777`). Only you can open it. It is not a website on the internet unless you host it yourself.
+The **studio** is a local form UI (`http://127.0.0.1:8777`) started with `python cli.py studio`. It is separate from this documentation website.
 
 A **widget** is one studio page with a form. Each widget writes JSON (or Markdown) into `sandbox/`.
 
 The **CLI** is the same writers, run from a terminal (`python cli.py …`).
 
-The **sandbox** is the only folder this kit is allowed to write. It will not write into Steam, `Core.zip`, or your plugin folder.
+The **sandbox** is the only folder this kit writes. It will not write into Steam, `Core.zip`, or a plugin folder.
 
-A **template** (Focus templates) is a known-good *shape* of a creature ability copied from how vanilla actions look (melee + buff, heal percent, and similar). You still must point it at real buff SIDs and icons that exist in live Core.
+A **template** (Focus templates) is a known-good *shape* of a creature ability copied from how vanilla actions look (melee + buff, heal percent, and similar). Point it at real buff SIDs and icons that exist in live Core.
 
-An **overlay-review** file is sandbox JSON this kit writes. It is a checklist of fields for a packer you own. It is **not** a Core.zip row (`units_logics`, `DB/fractions/…`). `kitMeta.fileKind` is `overlay-review`. Proof: source/static only.
+An **overlay-review** file is sandbox JSON this kit writes. It is a field checklist for a Core overlay packer. It is **not** a Core.zip row (`units_logics`, `DB/fractions/…`). `kitMeta.fileKind` is `overlay-review`. Proof: source/static only.
 
-An **overlay** is software **you** own that copies your JSON into the installed `Core.zip`. This kit is not an overlay. Golden Era’s packer is not included.
+An **overlay** is software that copies JSON into the installed `Core.zip`. This kit is not an overlay packer.
 
 **Proof labels** are honesty tags: “this JSON exists” is not “a player saw it in combat.” See [17_proof.md](17_proof.md).
 
