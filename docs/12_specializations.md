@@ -8,7 +8,7 @@ Author a hero specialty the overlay will accept into `DB/heroes_specializations`
 
 ## Supported specialty types
 
-These are the types a Golden Era-style cleaner will keep:
+These are the types the Golden Era mod’s cleaner keeps. Use the same list unless you have a reason to support more:
 
 - `unitStat` — army combat scalars (`modifierSet`, `outDmgMods`, …)
 - `heroStat` / `heroStatBattle`

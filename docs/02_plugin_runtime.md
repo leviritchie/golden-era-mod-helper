@@ -67,4 +67,4 @@ Reliable custom visuals:
 
 ## Helper widget
 
-The [hook catalog](11_hooks.md) and studio Hook catalog list families. Re-pin names in your own registry; do not paste Golden Era obfuscated strings as if they were an API.
+The [hook catalog](11_hooks.md) and studio Hook catalog list families. Re-pin names in your own registry after each **Olden Era** game update. Do not paste obfuscated strings copied from the Golden Era plugin (or any other mod) as if they were a stable API.

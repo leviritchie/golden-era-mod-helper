@@ -1,4 +1,4 @@
-"""Proof-tier labels used by Golden Era work. Teaching copy, not a gameplay claim."""
+"""Proof-tier labels used by Olden Era mod work. Teaching copy, not a gameplay claim."""
 
 from __future__ import annotations
 

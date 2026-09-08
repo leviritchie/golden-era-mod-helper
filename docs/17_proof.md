@@ -27,4 +27,4 @@ Do not promote a claim up this ladder without new evidence.
 
 ## This helper’s proof
 
-The kit itself is source/static plus sandbox generation. Running the studio does not prove Golden Era gameplay.
+The kit itself is source/static plus sandbox generation. Running the studio does not prove Olden Era gameplay, and it does not prove the Golden Era mod is installed.

@@ -1,4 +1,4 @@
-"""JSON schemas and validators for uncoupled Golden Era creator files.
+"""JSON schemas and validators for uncoupled Olden Era creator files.
 
 These schemas describe the *shape* other creators should author. They are
 not a Core.zip packer. Invalid input raises; nothing is silently dropped.

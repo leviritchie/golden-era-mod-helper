@@ -1,4 +1,4 @@
-"""Resolved locations for the Golden Era creator helper.
+"""Resolved locations for the Olden Era mod helper.
 
 All write operations must go through ``isolation.py``. This module only
 knows where the helper itself lives.

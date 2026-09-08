@@ -2,6 +2,8 @@
 
 If you have never used this kit, and you have never modded Olden Era, this page is the map.
 
+**Olden Era** is the game. **Golden Era** is an example *mod* for that game. The tools and jobs below are how Golden Era was made. Use them for any Olden Era mod. This page does not install Golden Era.
+
 You can **read** this page in a browser with no Python:
 
 https://leviritchie.github.io/golden-era-mod-helper/21_tools.html
@@ -26,7 +28,7 @@ Imagine three separate desks:
 | Desk | What lives there | Does this kit sit there? |
 | --- | --- | --- |
 | This clone | Docs, forms, and a `sandbox/` folder of practice JSON | Yes. This is the only desk the tools write to. |
-| Your overlay / plugin | The packer and C# that actually change Golden Era | No. You copy shapes from sandbox into that work. |
+| Your overlay / plugin | The packer and C# that actually change Olden Era | No. You copy shapes from sandbox into that work. |
 | The installed game | `Core.zip`, BepInEx, Steam | No. The tools refuse those paths. |
 
 If you click **Assign Focus ability to sandbox** and then launch Olden Era, the new button will **not** be there. That is expected. The click only created a text file in this clone.
@@ -271,7 +273,7 @@ The written plan lists required follow-up jobs and a “do not” list for that 
 
 Stock **might** heroes get Heroic Strike (`skill_warrior_ability`). Stock **magic** heroes get the mage commander attack (`skill_mage_ability`). Extra shouts and summons are **additional** SIDs. Do not replace the commander slot unless that is the explicit design.
 
-Stock Heroic Strike on Golden Era rows uses **absolute damage** and ignores the caster’s offence and the enemy’s defence. Raising Attack does not make it work like classic Heroes Attack-minus-Defense.
+Stock Olden Era Heroic Strike (the commander attack Golden Era kept) uses **absolute damage** and ignores the caster’s offence and the enemy’s defence. Raising Attack does not make it work like classic Heroes Attack-minus-Defense.
 
 ### Fields
 

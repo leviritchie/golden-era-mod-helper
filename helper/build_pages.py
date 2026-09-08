@@ -74,7 +74,7 @@ def _page(title: str, current: str, body: str, *, extra_class: str = "doc") -> s
 <body>
   <header class="top">
     <div>
-      <p class="kicker">Public documentation site · GitHub Pages</p>
+      <p class="kicker">Olden Era modding docs · examples from the Golden Era mod</p>
       <h1>Golden Era Mod Helper</h1>
     </div>
     <p class="sandbox-note">You can read this in a browser with no Python and no game install. Forms that write files still need a local clone.</p>
@@ -103,7 +103,7 @@ def _home_body() -> str:
             f"<p>Open this page next if you have never used the kit.</p></article>"
         )
     return f"""
-        <p class="lede">This is a public documentation website for people who have never modded <em>Heroes of Might and Magic: Olden Era</em> (Golden Era). You do not need Python, Steam, or a clone to read it.</p>
+        <p class="lede">This is a public documentation website for people who have never modded <em>Heroes of Might and Magic: Olden Era</em>. Olden Era is the game. Golden Era is an example <em>mod</em> for that game. These pages show how Golden Era was made; the same jobs apply to other Olden Era mods. You do not need Python, Steam, or a clone to read this site.</p>
         <p>Start here, in this order:</p>
         <div class="grid">{"".join(cards)}</div>
         <h2>What this site can do</h2>

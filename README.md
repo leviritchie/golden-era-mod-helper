@@ -1,6 +1,8 @@
 # Golden Era Mod Helper
 
-A **teaching kit** for people who have never modded *Heroes of Might and Magic: Olden Era* (the Golden Era PC build) and need the jobs named, in order, in plain language.
+A **teaching kit** for people who have never modded *Heroes of Might and Magic: Olden Era*.
+
+**Olden Era** is the game. **Golden Era** is a large example *mod* for that game. This kit shows how Golden Era was put together. The same jobs apply if you are writing a different Olden Era mod. This kit does not install Golden Era, and you do not need Golden Era installed to follow it.
 
 Public clone: https://github.com/leviritchie/golden-era-mod-helper
 

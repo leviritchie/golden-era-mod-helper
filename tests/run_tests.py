@@ -1,4 +1,4 @@
-"""Test runner for the Golden Era creator helper."""
+"""Test runner for the Olden Era mod helper."""
 
 from __future__ import annotations
 

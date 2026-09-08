@@ -1,6 +1,6 @@
-# Golden Era principles for other creators
+# Principles for Olden Era modding
 
-These rules come from shipping custom factions, abilities, towns, and visuals against the Golden Era IL2CPP build. They are not style preferences. Breaking them is how mods look finished in JSON and then crash at map load or combat Init.
+These rules come from building **Golden Era**, a mod for the game **Olden Era**. They are examples of what actually shipped. They apply to other Olden Era mods, not only to Golden Era. They are not style preferences. Breaking them is how mods look finished in JSON and then crash at map load or combat Init.
 
 ## 1. Olden Era is three layers, not one table
 

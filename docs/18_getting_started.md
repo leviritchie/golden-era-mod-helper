@@ -2,6 +2,8 @@
 
 If the words Core.zip, SID, Focus, or Harmony are new, read [20_glossary.md](20_glossary.md) first, then [21_tools.md](21_tools.md) so you know what each button and command actually writes. The same pages are on the public site: https://leviritchie.github.io/golden-era-mod-helper/
 
+**Olden Era** is the game you are modding. **Golden Era** is an example mod. This order of jobs is how that mod was built; follow it for a different Olden Era town as well.
+
 This page is the **order of jobs** for a new custom town. It is not a promise that this kit installs anything. This kit only writes practice files into `sandbox/`.
 
 Do not start by writing a Harmony patch. Do not start by replacing town clicks. Do not start by pointing a unit’s `mesh` field at a custom folder the game cannot load.

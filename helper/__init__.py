@@ -1,4 +1,4 @@
-"""Golden Era creator helper package. Writers save only under sandbox/."""
+"""Olden Era mod helper (worked examples from the Golden Era mod). Writers save only under sandbox/."""
 
 from .ability_assigner import assign_focus_ability, save_ability_overrides
 from .building_scaffold import build_plan as build_building_plan

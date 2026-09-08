@@ -1,4 +1,4 @@
-"""Command-line entry for the Golden Era creator helper."""
+"""Command-line entry for the Olden Era mod helper."""
 
 from __future__ import annotations
 
@@ -33,9 +33,10 @@ from helper.schemas import SchemaError
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description=(
-            "Golden Era creator helper. Run this from the folder that contains cli.py. "
+            "Olden Era mod helper (examples from how the Golden Era mod was made). "
+            "Run this from the folder that contains cli.py. "
             "Every writer saves only under ./sandbox in this clone. "
-            "This does not install files into the game. "
+            "This does not install files into Olden Era or install Golden Era. "
             "Read docs/20_glossary.md and docs/21_tools.md before the first command."
         )
     )

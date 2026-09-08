@@ -22,7 +22,7 @@ Skinned-mesh combat bundles:
 
 - include the owned prefab, map prefab (often the same mesh looping Idle), controller, albedo, normal, metallic-gloss
 - omit battle `Texture2DArray`, billboard materials, and billboard anims
-- use a runtime-compatible shader path (Golden Era world lighting is `Hex/Lit` after rebind; a glTF shader will show pink `Hidden/InternalErrorShader`)
+- use a runtime-compatible shader path (Olden Era world lighting, as used by Golden Era, is `Hex/Lit` after rebind; a glTF shader will show pink `Hidden/InternalErrorShader`)
 
 Combat Init must load a **cached** battle presentation template, not a ResManager load of the donor on that path. Donor loads on Init have frozen combat.
 
@@ -48,7 +48,7 @@ Mesh facing is usually a glTF orientation bake (example: −90° yaw in glTF so 
 
 ## Mesh FX
 
-Fire and sparks parent to a bone or bounds from a catalog. Do not bake AnimationEvents into owned clips. Do not hang 3D fire on a billboard phoenix. Do not `MethodInfo.Invoke` `ResManager.Get` from `LateUpdate`, `MapObject.Init`, or main menu — that AccessViolation'd Golden Era. Load Core FX through the generated Il2Cpp invoke path, LateUpdate only.
+Fire and sparks parent to a bone or bounds from a catalog. Do not bake AnimationEvents into owned clips. Do not hang 3D fire on a billboard phoenix. Do not `MethodInfo.Invoke` `ResManager.Get` from `LateUpdate`, `MapObject.Init`, or main menu — that AccessViolation’d the running Olden Era process while Golden Era was loading FX. Load Core FX through the generated Il2Cpp invoke path, LateUpdate only.
 
 ## Helper widget
 

@@ -2,13 +2,19 @@
 
 This kit uses words that are ordinary in this community and meaningless if you have not seen them. Each definition is the meaning used here. If two words look similar, they are still different jobs.
 
-## The game
+## The game, the example mod, and this kit
 
-**Olden Era** is the Unity game *Heroes of Might and Magic: Olden Era*.
+These three names are not the same thing.
 
-**Golden Era** is a specific installed build of that game that creators currently target for mods. Other folders on a PC (older playtests, experimental deobfuscated copies) are not automatically the same thing. When this kit says “the game,” it means the Golden Era install you actually launch.
+**Olden Era** is the Unity game *Heroes of Might and Magic: Olden Era*. That is what you install from Steam and launch. When this kit says **the game**, it means Olden Era. The instructions here are for **modding Olden Era**.
 
-**IL2CPP** is how Unity shipped the gameplay code: it is compiled to native code (`GameAssembly.dll`), not to easy-to-edit C#. You do not open the game’s combat code in a text editor. You add data files and, when data is not enough, a plugin that patches running methods.
+**Golden Era** is a **mod** for Olden Era (a large BepInEx plugin plus Core.zip overlay). It is not the game, and it is not a special edition of the game. This kit is a set of **worked examples taken from how Golden Era was made**. You can follow the same jobs for a different Olden Era mod. You do not need to install Golden Era to use this kit.
+
+**Golden Era Mod Helper** (this repository and website) is the teaching kit. It is not Golden Era, and it does not install Golden Era or any other mod.
+
+**Vanilla** / **stock** means an unmodded Olden Era table or behavior: the rows and buttons the game already ships.
+
+**IL2CPP** is how Unity shipped Olden Era’s gameplay code: it is compiled to native code (`GameAssembly.dll`), not to easy-to-edit C#. You do not open the game’s combat code in a text editor. You add data files and, when data is not enough, a plugin that patches running methods.
 
 ## What a mod is here
 
@@ -75,7 +81,7 @@ A **creature Focus ability** is a button on the selected-unit action bar (the un
 
 A **hero ability** is a button on the **hero** bar. Stock might heroes have **Heroic Strike** (`skill_warrior_ability`). Stock magic heroes have a mage commander attack (`skill_mage_ability`). Extra shouts and summons are **additional** buttons.
 
-**Heroic Strike** on stock Golden Era rows uses **absolute damage** and ignores the caster’s offence and the enemy’s defence. Raising a creature’s Attack stat does not make Heroic Strike work like classic Heroes of Might and Magic Attack-minus-Defense. That surprise is documented because people assume the old formula.
+**Heroic Strike** on stock Olden Era rows (the commander attack Golden Era kept) uses **absolute damage** and ignores the caster’s offence and the enemy’s defence. Raising a creature’s Attack stat does not make Heroic Strike work like classic Heroes of Might and Magic Attack-minus-Defense. That surprise is documented because people assume the old formula.
 
 A **buff** is a status table row (stun, bless, haste). An ability can apply a buff SID. If that SID is missing from Core, hire/UI screens can crash with a null config. That is a data bug, not a missing picture.
 
@@ -115,7 +121,7 @@ An **overlay** is software **you** own that copies your JSON into the installed 
 
 ## What this kit will never do
 
-- Install a faction into Golden Era
+- Install a faction into Olden Era
 - Compile your plugin
 - Patch `GameAssembly.dll`
 - Guess a donor reverse-lookup because “a custom town exists”

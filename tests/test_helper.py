@@ -174,6 +174,11 @@ class DocsTests(unittest.TestCase):
         names = {row["id"] for row in index}
         self.assertIn("glossary", names)
         self.assertIn("tools", names)
+        glossary = (DOCS_DIR / "20_glossary.md").read_text(encoding="utf-8")
+        self.assertIn("Golden Era** is a **mod**", glossary)
+        self.assertIn("it means Olden Era", glossary)
+        self.assertNotIn("specific installed build of that game", glossary)
+        self.assertNotIn("the Golden Era PC build", glossary)
 
     def test_markdown_tables(self) -> None:
         html = markdown_to_html("# Title\n\n| A | B |\n| --- | --- |\n| 1 | 2 |\n")

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "title": "Golden Era hook catalog for other creators",
+  "title": "Hook catalog for Olden Era mods (families taken from Golden Era work)",
   "proof": "source/static teaching index. Obfuscated method names drift after hotfixes. Copy the family and the ownership rule, then re-pin live names in your own GameSymbols file.",
   "principles": [
     "Prefer a native Core row over a Harmony patch.",

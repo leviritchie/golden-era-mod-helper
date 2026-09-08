@@ -1,6 +1,6 @@
 # Component: Hooks catalog
 
-This component lists **runtime families**. Live obfuscated names are not a public API. After every Golden Era hotfix, re-pin in your own `GameSymbols` file.
+This component lists **runtime families**. Live obfuscated names are not a public API. After every **Olden Era** game update, re-pin in your own `GameSymbols` file. Names that worked in the Golden Era plugin on last week’s game build may be wrong on this week’s.
 
 The studio Hook catalog searches `data/hook_catalog.json`.
 
@@ -45,7 +45,7 @@ Counting `void(object, BattleEventArgs)` methods in DiffableCs and picking `Meth
 
 Pin: field offset → interop field short name → `field_…_N` → matching raise `Method_…_N`.
 
-Buff got-buff: DiffableCs index 39 is **not** live Method_39 (that one raises ChangeAbility and live-negatives with a cast). The got-buff pin is a different Method_N (`cfin` / Method_35 in one Golden Era build). Your build may differ. Re-pin.
+Buff got-buff: DiffableCs index 39 is **not** live Method_39 (that one raises ChangeAbility and live-negatives with a cast). The got-buff pin is a different Method_N (`cfin` / Method_35 on one Olden Era game build used while making Golden Era). Your Olden Era build may differ. Re-pin.
 
 ## C# examples
 

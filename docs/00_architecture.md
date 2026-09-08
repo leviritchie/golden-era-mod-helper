@@ -1,6 +1,6 @@
-# How Golden Era is put together
+# How an Olden Era mod is put together
 
-Olden Era is a Unity IL2CPP game. Gameplay code is native inside `GameAssembly.dll`. Mods usually attach with BepInEx 6 IL2CPP, generated interop wrappers, Harmony patches, and JSON in `Core.zip`.
+**Olden Era** is a Unity IL2CPP game. Gameplay code is native inside `GameAssembly.dll`. Mods (including the example mod **Golden Era**) usually attach with BepInEx 6 IL2CPP, generated interop wrappers, Harmony patches, and JSON in `Core.zip`. This page describes that game-plus-mod shape. It is not a claim that Golden Era *is* the game.
 
 If you treat it as “a folder of JSON to edit,” you will get a faction that exists in data and then fails in the selector, in town, or in combat.
 

@@ -1,6 +1,6 @@
 # C# example patterns
 
-These files are **teaching copies**. They are not a game plugin. They will not compile against Golden Era interop as-is.
+These files are **teaching copies**. They are not a game plugin. They will not compile against live Olden Era interop as-is.
 
 Placeholder names such as `LiveType_UnitInitSideWrapper` stand in for obfuscated IL2CPP names. Put the live pins in your own `GameSymbols` class after you re-pin against the current `GameAssembly.dll`.
 

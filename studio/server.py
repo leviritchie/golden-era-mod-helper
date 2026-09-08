@@ -1,4 +1,4 @@
-"""HTTP studio for the Golden Era creator helper.
+"""HTTP studio for the Olden Era mod helper.
 
 Writes only through helper.isolation. Does not pack Core.zip or install a plugin.
 """
@@ -288,7 +288,7 @@ def _load_working_overrides(body: dict) -> dict:
 def serve(host: str = "127.0.0.1", port: int = 8777) -> None:
     SANDBOX_DIR.mkdir(parents=True, exist_ok=True)
     httpd = ThreadingHTTPServer((host, port), StudioHandler)
-    print(f"Golden Era mod helper studio: http://{host}:{port}", flush=True)
+    print(f"Olden Era mod helper studio: http://{host}:{port}", flush=True)
     print(f"Sandbox writes: {SANDBOX_DIR}", flush=True)
     print("This server writes only under sandbox/ in this clone. It does not install a game mod.", flush=True)
     httpd.serve_forever()

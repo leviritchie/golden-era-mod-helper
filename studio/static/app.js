@@ -83,7 +83,7 @@ async function renderHome() {
   sandboxNote.textContent = `Practice files are written under ${meta.sandbox}. This site does not install a game mod.`;
   const root = el(`
     <section>
-      <p class="lede">If you have never modded Olden Era, start with <a href="#docs/glossary">the glossary</a>, then <a href="#docs/tools">what every tool does</a>. This studio is a website that runs only on your computer. Each form writes a practice JSON file into a folder named <code>sandbox</code> inside this clone. The game will not change until you copy those files into your own overlay and plugin.</p>
+      <p class="lede">If you have never modded Olden Era, start with <a href="#docs/glossary">the glossary</a>, then <a href="#docs/tools">what every tool does</a>. Olden Era is the game. Golden Era is an example mod for that game; this kit shows how that mod was made. This studio is a website that runs only on your computer. Each form writes a practice JSON file into a folder named <code>sandbox</code> inside this clone. The game will not change until you copy those files into your own overlay and plugin.</p>
       <p>A <strong>faction</strong> (a custom town with units and heroes) is many jobs. Finishing unit stats does not prove town clicks work. Finishing a Harmony patch does not prove Core.zip contains the row.</p>
       <div class="grid">
         <article class="card"><h3>1. Core data</h3><p>JSON inside the game archive <code>Core.zip</code>. Units, heroes, buildings, laws, visible text. Copy complete vanilla shapes, then change ids and payloads. This kit does not pack Core.zip.</p></article>
