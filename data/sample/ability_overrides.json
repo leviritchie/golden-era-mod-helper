@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "factionSid": "homm3_example",
+  "unitOverrides": {
+    "h3_example_pikeman": {
+      "abilities": [],
+      "existingSpecials": [
+        {
+          "key": "abilities:0",
+          "slotKind": "abilities",
+          "index": 0,
+          "enabled": false,
+          "nameKey": "h3_example_pikeman_stunning_blow_name",
+          "descriptionKey": "h3_example_pikeman_stunning_blow_description",
+          "nameText": "Stunning Blow",
+          "descriptionText": "Spend Focus to apply a native one-round stun effect.",
+          "iconKey": "",
+          "abilityType": "Ability_type_debuff",
+          "animationIndex": 2,
+          "turnBehavior": "ends",
+          "energyLevel": 3,
+          "cooldown": 3,
+          "rank": 3,
+          "charges": "",
+          "effectKey": "",
+          "effectKind": "",
+          "effectLabel": "",
+          "effectPayload": {},
+          "notes": "Disabled on the base unit so the upgrade can own the decision."
+        }
+      ],
+      "replaceExistingAbilities": false,
+      "replaceExistingPassives": false,
+      "branchRole": "base-line",
+      "sourceMechanicId": "example.pikeman_line",
+      "decisionTest": "Base line should be weaker than both upgrades."
+    },
+    "h3_example_pikeman_upg": {
+      "abilities": [],
+      "existingSpecials": [
+        {
+          "key": "abilities:0",
+          "slotKind": "abilities",
+          "index": 0,
+          "enabled": true,
+          "nameKey": "h3_example_pikeman_upg_halberd_hook_name",
+          "descriptionKey": "h3_example_pikeman_upg_halberd_hook_description",
+          "nameText": "Halberd Hook",
+          "descriptionText": "Spend 2 Focus in melee range to strike and stun an enemy for 1 round.",
+          "iconKey": "assassin_buff_icon",
+          "abilityType": "Ability_type_debuff",
+          "animationIndex": 1,
+          "turnBehavior": "ends",
+          "energyLevel": 2,
+          "cooldown": 2,
+          "rank": 3,
+          "charges": "",
+          "effectKey": "assassin_ability_2_name",
+          "effectKind": "localized-ability",
+          "effectLabel": "Shadowstrike",
+          "effectPayload": {},
+          "notes": "Example of assigning a Focus cost onto a copied native special."
+        }
+      ],
+      "replaceExistingAbilities": false,
+      "replaceExistingPassives": false,
+      "branchRole": "standard-upgrade",
+      "sourceMechanicId": "example.pikeman_line",
+      "decisionTest": "Choose this upgrade when you want a cheaper stun."
+    }
+  }
+}

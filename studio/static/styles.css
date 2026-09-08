@@ -1,0 +1,196 @@
+:root {
+  --bg: #161616;
+  --panel: #1f1f1f;
+  --ink: #f2f2f2;
+  --muted: #b5b5b5;
+  --line: #3a3a3a;
+  --accent: #c4a35a;
+  --danger: #d67c73;
+  --ok: #8fbf8f;
+  --focus: #e8d5a3;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.5 "Segoe UI", sans-serif;
+}
+
+a { color: var(--accent); }
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.kicker {
+  margin: 0 0 4px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+}
+
+h1, h2, h3 { font-weight: 600; margin: 0 0 12px; }
+h1 { font-size: 28px; }
+h2 { font-size: 22px; }
+h3 { font-size: 18px; }
+
+.sandbox-note {
+  margin: 0;
+  max-width: 28rem;
+  color: var(--muted);
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: calc(100vh - 84px);
+}
+
+.nav {
+  border-right: 1px solid var(--line);
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav a {
+  color: var(--ink);
+  text-decoration: none;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+}
+
+.nav a:hover, .nav a[aria-current="page"] {
+  border-color: var(--line);
+  background: var(--panel);
+}
+
+.app {
+  padding: 24px 32px 64px;
+  max-width: 1100px;
+}
+
+.lede {
+  font-size: 18px;
+  max-width: 46rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 16px;
+}
+
+.card h3 { margin-bottom: 8px; }
+
+form, .stack { display: flex; flex-direction: column; gap: 12px; }
+
+.hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 400;
+  max-width: 42rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+input, select, textarea, button {
+  font: inherit;
+  color: var(--ink);
+  background: #111;
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+}
+
+textarea { min-height: 90px; }
+
+button {
+  background: var(--panel);
+  cursor: pointer;
+  width: fit-content;
+}
+
+button.primary {
+  background: var(--accent);
+  color: #111;
+  border-color: var(--accent);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+pre, .doc {
+  background: #111;
+  border: 1px solid var(--line);
+  padding: 16px;
+  overflow: auto;
+}
+
+.doc h1:first-child, .doc h2:first-child { margin-top: 0; }
+
+.doc table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 12px 0;
+}
+
+.doc th, .doc td {
+  border: 1px solid var(--line);
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.status {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+}
+
+.status.ok { border-color: var(--ok); }
+.status.err { border-color: var(--danger); }
+
+.list-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 6px;
+}
+
+.check {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+ul.plain { padding-left: 1.2rem; }
+
+@media (max-width: 800px) {
+  .shell, .row { grid-template-columns: 1fr; }
+  .nav { flex-direction: row; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid var(--line); }
+}

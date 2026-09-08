@@ -1,0 +1,134 @@
+[
+  {
+    "id": "glossary",
+    "title": "Glossary (start here)",
+    "file": "20_glossary.md",
+    "components": []
+  },
+  {
+    "id": "tools",
+    "title": "What every tool does",
+    "file": "21_tools.md",
+    "components": []
+  },
+  {
+    "id": "start",
+    "title": "Getting started",
+    "file": "18_getting_started.md",
+    "components": []
+  },
+  {
+    "id": "architecture",
+    "title": "How Golden Era is put together",
+    "file": "00_architecture.md",
+    "components": []
+  },
+  {
+    "id": "core",
+    "title": "Core.zip data",
+    "file": "01_core_data.md",
+    "components": ["faction"]
+  },
+  {
+    "id": "plugin",
+    "title": "Plugin runtime and Harmony",
+    "file": "02_plugin_runtime.md",
+    "components": ["hooks"]
+  },
+  {
+    "id": "direct_state",
+    "title": "Direct State",
+    "file": "03_direct_state.md",
+    "components": ["hooks"]
+  },
+  {
+    "id": "faction",
+    "title": "Custom faction",
+    "file": "04_custom_faction.md",
+    "components": ["faction"]
+  },
+  {
+    "id": "billboard",
+    "title": "Unit billboards",
+    "file": "05_unit_billboards.md",
+    "components": ["billboard"]
+  },
+  {
+    "id": "mesh",
+    "title": "Unit skinned meshes",
+    "file": "06_unit_skinned_mesh.md",
+    "components": ["mesh"]
+  },
+  {
+    "id": "hero",
+    "title": "Custom hero abilities",
+    "file": "07_hero_abilities.md",
+    "components": ["hero"]
+  },
+  {
+    "id": "focus",
+    "title": "Custom Focus abilities",
+    "file": "08_focus_abilities.md",
+    "components": ["focus"]
+  },
+  {
+    "id": "buildings",
+    "title": "Custom buildings",
+    "file": "09_buildings.md",
+    "components": ["buildings"]
+  },
+  {
+    "id": "town",
+    "title": "Custom town scene",
+    "file": "10_town_scene.md",
+    "components": ["town"]
+  },
+  {
+    "id": "hooks",
+    "title": "Hook catalog",
+    "file": "11_hooks.md",
+    "components": ["hooks"]
+  },
+  {
+    "id": "specializations",
+    "title": "Hero specializations",
+    "file": "12_specializations.md",
+    "components": ["hero"]
+  },
+  {
+    "id": "laws",
+    "title": "Faction laws",
+    "file": "13_laws.md",
+    "components": ["laws"]
+  },
+  {
+    "id": "buffs",
+    "title": "Buffs and statuses",
+    "file": "14_buffs.md",
+    "components": ["buffs"]
+  },
+  {
+    "id": "assets",
+    "title": "Localization and icons",
+    "file": "15_localization_assets.md",
+    "components": ["faction", "focus"]
+  },
+  {
+    "id": "silent_miss",
+    "title": "Silent miss / wrong proof",
+    "file": "16_silent_miss.md",
+    "components": ["hooks"]
+  },
+  {
+    "id": "proof",
+    "title": "Proof labels",
+    "file": "17_proof.md",
+    "components": []
+  },
+  {
+    "id": "widgets",
+    "title": "Studio widgets (short index)",
+    "file": "19_widgets.md",
+    "components": []
+  }
+]

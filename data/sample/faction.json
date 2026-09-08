@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "identity": {
+    "factionSid": "homm3_example",
+    "citySid": "homm3_example_city",
+    "displayNameToken": "homm3_example_name",
+    "descriptionToken": "homm3_example_desc",
+    "nativeBiome": "Valleys",
+    "donorFactionSid": "humans",
+    "donorCitySid": "human_city"
+  },
+  "coreOverlay": {
+    "factionJson": "DB/fractions/homm3_example.json",
+    "cityLogic": "DB/objects_logic/cities/homm3_example_city.json",
+    "lawsTable": "DB/fractions_laws/fractions_laws_table_homm3_example.json",
+    "squadTree": "DB/squads/squads_homm3_example/",
+    "heroSubClasses": "DB/heroes_sub_classes/sub_classes_homm3_example.json",
+    "heroSpecializations": "DB/heroes_specializations/specializations_homm3_example.json",
+    "directCityMapObject": "homm3_example_city",
+    "directDwellingPrefix": "barracks_homm3_example_",
+    "donorFactionCoreSid": "human"
+  },
+  "unitVariants": ["", "_upg", "_upg_alt"],
+  "unitLines": [
+    {
+      "tier": 1,
+      "baseSid": "h3_example_pikeman",
+      "donorFactionSid": "humans",
+      "donorBaseSid": "esquire",
+      "names": ["Example Pikeman", "Example Halberdier", "Example Glaivier"]
+    },
+    {
+      "tier": 2,
+      "baseSid": "h3_example_archer",
+      "donorFactionSid": "humans",
+      "donorBaseSid": "crossbowman",
+      "names": ["Example Archer", "Example Marksman", "Example Crossbowman"]
+    }
+  ],
+  "notes": "In-package sample only. Not an installed game faction."
+}

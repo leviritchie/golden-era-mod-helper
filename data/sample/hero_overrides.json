@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "factionSid": "homm3_example",
+  "heroOverrides": {
+    "homm3_example_hero_1": {
+      "enabled": true,
+      "classType": "might",
+      "className": "Knight",
+      "nameText": "Example Orrin",
+      "descriptionText": "A sample might hero used by the creator helper.",
+      "iconKey": "hero_homm3_example_1",
+      "startSkills": [
+        {
+          "sid": "skill_leadership",
+          "skillLevel": 1
+        }
+      ],
+      "specialization": {
+        "mode": "changed",
+        "nameText": "Archery",
+        "descriptionText": "Improves ranged attack damage for the hero's army.",
+        "iconKey": "skill_assault",
+        "bonuses": [
+          {
+            "type": "unitStat",
+            "parameters": ["modifierSet", "outDmgMods", "range_attack", "0.10"],
+            "upgrade": {
+              "increment": 0.01,
+              "levelStep": 2
+            }
+          }
+        ]
+      }
+    },
+    "homm3_example_hero_9": {
+      "enabled": true,
+      "classType": "magic",
+      "className": "Wizard",
+      "nameText": "Example Adelaide",
+      "descriptionText": "A sample magic hero. Class type selects skill_mage_ability.",
+      "iconKey": "hero_homm3_example_9",
+      "specialization": {
+        "mode": "changed",
+        "nameText": "Bless",
+        "descriptionText": "Example specialty text. Describe only bonuses that exist in the bonus rows.",
+        "iconKey": "skill_wisdom",
+        "bonuses": [
+          {
+            "type": "heroStat",
+            "parameters": ["spellPower", "2"]
+          }
+        ]
+      }
+    }
+  }
+}

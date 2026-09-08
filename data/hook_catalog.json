@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 1,
+  "title": "Golden Era hook catalog for other creators",
+  "proof": "source/static teaching index. Obfuscated method names drift after hotfixes. Copy the family and the ownership rule, then re-pin live names in your own GameSymbols file.",
+  "principles": [
+    "Prefer a native Core row over a Harmony patch.",
+    "Put live generated names in one registry. Do not scatter them through feature code.",
+    "One problem has one owner. Do not add a second damage, occupancy, or town-click path.",
+    "Fail closed. A missing symbol must skip the feature or leave native behavior alone.",
+    "After types match, key Il2Cpp objects by native pointer, not managed GetHashCode."
+  ],
+  "families": [
+    {
+      "id": "gamesymbols",
+      "title": "Symbol registry",
+      "components": ["hooks"],
+      "layer": "plugin",
+      "when": "Any live IL2CPP name is needed.",
+      "symbolsClass": "GameSymbols",
+      "hooks": [
+        {
+          "name": "Centralize pins",
+          "owner": "GameSymbols + GameMember",
+          "do": "Add a MethodSymbol or type-hint list here, then read it from the hook.",
+          "doNot": "Hardcode RVAs or dump-era names in feature files. Dump is not live."
+        }
+      ]
+    },
+    {
+      "id": "battle_unit_init",
+      "title": "Battle unit construction",
+      "components": ["hooks", "focus", "faction"],
+      "layer": "plugin",
+      "when": "You need the live battle Unit, hex, or side at spawn/init.",
+      "symbolsClass": "GameSymbols.BattleUnitInit",
+      "hooks": [
+        {
+          "name": "Unit.Init",
+          "owner": "BattleUnitInit.Init",
+          "do": "Param[2] is a battle-side wrapper (live ObjectPublicPrcgObPrcgInTrPrcgInUnique). Bridge to TransferSide before a TransferSide-keyed lookup.",
+          "doNot": "Treat the wrapper as TransferSide. Do not throw fail-closed from optional pilots on BattleLogic.Init; that method also runs during adventure-map Loader."
+        }
+      ]
+    },
+    {
+      "id": "selected_unit_hud",
+      "title": "Selected-unit action bar",
+      "components": ["focus", "hooks"],
+      "layer": "plugin",
+      "when": "Custom Focus abilities must appear, highlight, and accept number keys.",
+      "symbolsClass": "GameSymbols.SelectedUnitHud",
+      "hooks": [
+        {
+          "name": "Controls hotkey",
+          "owner": "SelectedUnitHud.ControlsHotkey",
+          "do": "Patch the HotkeyAbilityArgs handler by parameter shape. Release idButton is one-based; try idButton-1 first for custom slots.",
+          "doNot": "Add a standalone Input.GetKeyDown poll. Do not revive a legacy selected-HUD helper as a second owner."
+        },
+        {
+          "name": "Custom ability bind",
+          "owner": "Homm3CustomUiIconHook / selected HUD recovery",
+          "do": "Extract the current Unit SID through centralized BattleUi fields. Overlay custom icons; do not write into native viewBase.pics on the release path.",
+          "doNot": "Leave overlaySprite set on pooled rows. Clear custom overlay when the bound ability is not yours."
+        }
+      ]
+    },
+    {
+      "id": "hero_ability_ui",
+      "title": "Hero battle ability buttons",
+      "components": ["hero", "hooks"],
+      "layer": "plugin",
+      "when": "Custom commander or extra hero actions need icons and binds.",
+      "symbolsClass": "GameSymbols.WarcryHeroAbility / FocusLaws hero ability views",
+      "hooks": [
+        {
+          "name": "Hero ability icon cache",
+          "owner": "Homm3CustomHeroAbilityIconSpriteCache + Homm3WarcriesHeroAbilityHook",
+          "do": "Load packed Core hero_abilities.json rows and write exact disabled/normal/hover children. Check cache row/level counts.",
+          "doNot": "Treat a zero-row cache load as success. Do not use the quarantined Warcry availability-normalization path."
+        }
+      ]
+    },
+    {
+      "id": "focus_energy",
+      "title": "Focus / energy economy",
+      "components": ["focus", "laws", "hooks"],
+      "layer": "plugin",
+      "when": "A law or ability must grant, spend, or display Focus.",
+      "symbolsClass": "GameSymbols.FocusLaws",
+      "hooks": [
+        {
+          "name": "Energy manager grant",
+          "owner": "FocusLaws.GrantEnergy",
+          "do": "Use the energy manager members listed in FocusLaws. Ability cost in Core is energyLevel.",
+          "doNot": "Invent a second Focus counter. Combat Focus pips are native children under BhAbilityViewBase.energyContainer."
+        }
+      ]
+    },
+    {
+      "id": "damage",
+      "title": "Committed damage",
+      "components": ["laws", "hooks"],
+      "layer": "plugin",
+      "when": "A design cannot be a native unitStat / outDmgMods law row.",
+      "symbolsClass": "GameSymbols.BattleEventLaws.BattleUnitApplyDamage",
+      "hooks": [
+        {
+          "name": "Apply damage prefix",
+          "owner": "Exact BattleUnitApplyDamage MethodSymbol",
+          "do": "One damage owner. Pair DamageApplied postfix with a typed prefix that sets __state. Unwrap damage __0; it is not a ready Unit.",
+          "doNot": "Add stale bbgw as a silent fallback. Do not share ownership with a Direct State damage adapter."
+        }
+      ]
+    },
+    {
+      "id": "buffs",
+      "title": "Buff add and got-buff dispatch",
+      "components": ["buffs", "hooks"],
+      "layer": "plugin",
+      "when": "You add a custom buff and need the native got-buff event.",
+      "symbolsClass": "GameSymbols.BuffDebuffLaws",
+      "hooks": [
+        {
+          "name": "BuffEventDispatch",
+          "owner": "BuffDebuffLaws.BuffEventDispatch (live Method_35 / cfin)",
+          "do": "Pin via field offset to short name to Method_N. Sender is the ability/native source, never the hub as both this and arg0.",
+          "doNot": "Treat DiffableCs declaration index 39 as Method_39. That raise is ChangeAbility and live-negatives with a cast exception."
+        }
+      ]
+    },
+    {
+      "id": "import_visuals",
+      "title": "Unit battle / map / preview visuals",
+      "components": ["billboard", "mesh", "hooks"],
+      "layer": "plugin",
+      "when": "A custom unit must replace a donor visual after native construction.",
+      "symbolsClass": "GameSymbols.ImportVisuals / BattleVisual / UnitPreview",
+      "hooks": [
+        {
+          "name": "Release battle visual",
+          "owner": "Homm3ImportReleaseBattleVisualHook",
+          "do": "On skinned_mesh, use TryGetCachedBattlePresentationTemplate only during combat Init.",
+          "doNot": "Call TryGetBattlePresentationTemplate on that path (ResManager-loads the donor and can freeze combat). Do not copy skinned-only packs over billboard bundles."
+        },
+        {
+          "name": "Preview factory",
+          "owner": "Homm3ImportPreviewSyntheticMeshHook",
+          "do": "Rewrite Show.bewc's UnitViewConfig.id to the dungeon catalog id (trogl, not troglodyte). Keep Idle mesh for owned-skinned SIDs only.",
+          "doNot": "Stamp Sprites/Default overlay materials onto owned skinned meshes."
+        },
+        {
+          "name": "Adventure-map billboard",
+          "owner": "Homm3ImportVisuals map finish",
+          "do": "Sanitize Hex/Lit. Skip billboard finish for skinned instances and play Idle instead.",
+          "doNot": "Use a plain UI sprite material on a map quad."
+        }
+      ]
+    },
+    {
+      "id": "town_world",
+      "title": "Owned city world",
+      "components": ["town", "buildings", "hooks"],
+      "layer": "plugin",
+      "when": "A custom faction needs a playable town screen.",
+      "symbolsClass": "GameSymbols.FactoryCityScene / ReleaseTownUi",
+      "hooks": [
+        {
+          "name": "City scene replace",
+          "owner": "Homm3FactoryCitySceneRegistrar",
+          "do": "LoadScene donor, move into owned scene, keep native BhBuilding clicks.",
+          "doNot": "Use Route A posters, click relays, or city_hive aliasing as the product path."
+        },
+        {
+          "name": "Hall construction open",
+          "owner": "HUD BuildingsConstruction navigation",
+          "do": "Close only panels that are visually open (Canvas.enabled + CanvasGroup).",
+          "doNot": "Call escape/hide because a panel is activeInHierarchy. Hierarchy-active is not user-visible."
+        }
+      ]
+    },
+    {
+      "id": "map_objects",
+      "title": "Town and dwelling map billboards",
+      "components": ["buildings", "faction", "hooks"],
+      "layer": "plugin",
+      "when": "Adventure-map towns or external dwellings need custom art or hire payloads.",
+      "symbolsClass": "GameSymbols.CustomTownMapBillboard / CustomDwellingHire / CustomDwellingRandomHire",
+      "hooks": [
+        {
+          "name": "Town map billboard",
+          "owner": "Homm3CustomTownMapBillboard",
+          "do": "Resolve visuals per instance. Keep donor ObjectConfig.id stable.",
+          "doNot": "Rewrite shared donor ids to custom ids while direct custom rows also exist (duplicate-key map load)."
+        },
+        {
+          "name": "Dwelling hire",
+          "owner": "Homm3CustomDwellingHire / RandomHireResolver",
+          "do": "Require exact hire payload or saved original SID for donor-to-custom reverse mapping.",
+          "doNot": "Map donor barracks to a custom dwelling because 'a custom city was seen'."
+        }
+      ]
+    },
+    {
+      "id": "portraits_icons",
+      "title": "Portraits and UI icons",
+      "components": ["faction", "hero", "hooks"],
+      "layer": "plugin",
+      "when": "Custom keys are absent from the serialized sprite registry.",
+      "symbolsClass": "GameSymbols.HeroProfile / LawIcon / DialogAvatar",
+      "hooks": [
+        {
+          "name": "Custom UI icon resolver",
+          "owner": "Homm3CustomUiIconHook",
+          "do": "Supply Sprite results for known custom key prefixes. Patch the owning component.",
+          "doNot": "Broad Image.sprite postfix or descendant Image scans. Clear overrideSprite on pooled rows."
+        }
+      ]
+    },
+    {
+      "id": "laws_runtime",
+      "title": "Custom law runtime (gated)",
+      "components": ["laws", "hooks"],
+      "layer": "plugin",
+      "when": "A law cannot be expressed as a native Core bonus primitive.",
+      "symbolsClass": "GameSymbols.CustomFactionLawRuntime and per-family law classes",
+      "hooks": [
+        {
+          "name": "Packet gate",
+          "owner": "Homm3CustomLawPacketGate",
+          "do": "Keep hook-required laws behind packet proofs. Native-data replacements are the default product.",
+          "doNot": "Enable speculative mutators because a CSV mentions them. Training-damage stays inert while the packet gate is closed."
+        }
+      ]
+    },
+    {
+      "id": "direct_state",
+      "title": "Direct State transactions",
+      "components": ["hooks"],
+      "layer": "direct_state",
+      "when": "You need a journaled native store write with rollback, and no Core donor verb exists.",
+      "symbolsClass": "GameSymbols.DirectStateLaws",
+      "hooks": [
+        {
+          "name": "Traced store adapter",
+          "owner": "runtime_mechanics adapters",
+          "do": "Trace the store transaction. Still prove presentation separately.",
+          "doNot": "Treat CapLog store agreement as combat done. Do not dual-write occupancy. MovementPush remains gated until promoted."
+        }
+      ]
+    },
+    {
+      "id": "terrain_biome",
+      "title": "Custom biome and terrain",
+      "components": ["faction", "hooks"],
+      "layer": "plugin",
+      "when": "The faction nativeBiome is not a vanilla biome string the terrain dictionaries already know.",
+      "symbolsClass": "GameSymbols.TerrainMaterial / TerrainSound",
+      "hooks": [
+        {
+          "name": "Terrain material registration",
+          "owner": "custom biome pack + runtime registration",
+          "do": "Coordinate tiles, waters, generator config, arena views, obstruction models, and sounds. Refresh materials after render textures exist.",
+          "doNot": "Change only DB/biomes_info.json. Do not rebuild render textures from a map-build prefix before width is nonzero."
+        }
+      ]
+    },
+    {
+      "id": "session_loader",
+      "title": "Session and menu load",
+      "components": ["hooks"],
+      "layer": "plugin",
+      "when": "Custom factions must appear in new-game / custom-game lists.",
+      "symbolsClass": "GameSymbols.CustomGame / MainMenu / SessionLoader",
+      "hooks": [
+        {
+          "name": "Custom game hub",
+          "owner": "ReleaseCustomGameUiProbe",
+          "do": "Serialized SoFractions-style assets may not know custom ids. Intercept the selector, or add the faction to the serialized list through a proven path.",
+          "doNot": "Assume a Core fractions JSON row alone makes the faction pickable."
+        }
+      ]
+    },
+    {
+      "id": "extra_hero_actions",
+      "title": "Faction extra hero actions",
+      "components": ["hero", "hooks"],
+      "layer": "plugin",
+      "when": "Warcry, Gating, Avenger, Arcane Battery, Elite Strategem, and similar extra buttons.",
+      "symbolsClass": "WarcryHeroAbility, TowerArcaneBattery, CastleEliteStrategem, RampartAvengerLaws, DraconicDominion, SkeletalNecromancy",
+      "hooks": [
+        {
+          "name": "Additive grants",
+          "owner": "heroBattleAbility rows plus the matching UI/runtime hook",
+          "do": "Grant an extra ability SID. Keep commander attack unless replacement is explicit. Elite Strategem must key pending mode by casting DataHero.id.",
+          "doNot": "Use a process-global Strategem mode. Do not overwrite skill_warrior_ability for one shout."
+        }
+      ]
+    }
+  ]
+}

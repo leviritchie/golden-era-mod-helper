@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "layers": {
+    "core": {
+      "archive": "HeroesOldenEra_Data/StreamingAssets/Core.zip",
+      "members": {
+        "factionsList": "DB/data.json",
+        "factionRow": "DB/fractions/<factionSid>.json",
+        "cityLogic": "DB/objects_logic/cities/<citySid>.json",
+        "laws": "DB/fractions_laws/**",
+        "unitsLogic": "DB/units/units_logics/<faction>/<sid>_l.json",
+        "unitsView": "DB/units/units_views/<faction>/<sid>_v.json",
+        "heroAbilities": "DB/heroes_abilities/heroes_abilities_base/hero_abilities.json",
+        "heroAbilityScript": "DB/info/info_hero_ability/hero_ability.script",
+        "heroSpecializations": "DB/heroes_specializations/specializations_<faction>.json",
+        "mapInteractables": "DB/map/objects/4_interactables.json",
+        "dwellingHire": "DB/objects_logic/hires/barracks.json",
+        "langEnglish": "Lang/english/texts/*.json"
+      }
+    },
+    "plugin": {
+      "root": "BepInEx/plugins/<YourMod>/",
+      "typicalFiles": [
+        "the plugin DLL",
+        "config.json",
+        "portraits",
+        "skill icons",
+        "unit bundles",
+        "a GameSymbols.cs equivalent"
+      ]
+    },
+    "directState": {
+      "useWhen": "journaled native store writes with rollback, after Core donor verbs are ruled out"
+    }
+  }
+}
