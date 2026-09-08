@@ -139,6 +139,11 @@ def main(argv: list[str] | None = None) -> int:
 
     templates = sub.add_parser("templates", help="Print Focus template ids. Use these with assign-focus --template.")
 
+    pages = sub.add_parser(
+        "pages",
+        help="Build a static documentation website into ./site (for GitHub Pages). Does not install a mod and does not write sandbox JSON.",
+    )
+
     args = parser.parse_args(argv)
     try:
         if args.cmd == "studio":
@@ -153,6 +158,13 @@ def main(argv: list[str] | None = None) -> int:
         if args.cmd == "templates":
             for template in load_templates():
                 print(f"{template['id']}\t{template['label']}\t{template['category']}\t{template['risk']}")
+            return 0
+        if args.cmd == "pages":
+            from helper.build_pages import build_site
+            from helper.paths import HELPER_ROOT
+
+            dest = build_site(HELPER_ROOT / "site")
+            print(dest)
             return 0
         if args.cmd == "scaffold-faction":
             manifest = scaffold_faction(

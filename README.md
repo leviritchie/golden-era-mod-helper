@@ -4,11 +4,13 @@ A **teaching kit** for people who have never modded *Heroes of Might and Magic: 
 
 Public clone: https://github.com/leviritchie/golden-era-mod-helper
 
+**Read in a browser (no Python):** https://leviritchie.github.io/golden-era-mod-helper/
+
 This repository does **not** install a faction into your game. It does not need your Steam folder. Clone it anywhere, run Python, get practice JSON in `sandbox/`, then copy those shapes into **your** overlay and plugin.
 
 ## If you have never done this
 
-Read these three files in order:
+Read these three files in order (same pages on the public site, or in `docs/` after you clone):
 
 1. [docs/20_glossary.md](docs/20_glossary.md) — what words like Core.zip, SID, Focus, Harmony, and donor mean.
 2. [docs/21_tools.md](docs/21_tools.md) — what every studio page and `python cli.py` command does, field by field, and what it will not do.

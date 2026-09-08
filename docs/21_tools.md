@@ -2,9 +2,13 @@
 
 If you have never used this kit, and you have never modded Olden Era, this page is the map.
 
-Nothing here is a Steam installer. Nothing here finds your game folder. Every tool either **explains** a job or **writes a practice file** into a folder named `sandbox` at the root of this clone. The running game will not change until **you** copy those files into an overlay and plugin that you own.
+You can **read** this page in a browser with no Python:
 
-There are two ways to run the same writers:
+https://leviritchie.github.io/golden-era-mod-helper/21_tools.html
+
+Nothing here is a Steam installer. Nothing here finds your game folder. Every local tool either **explains** a job or **writes a practice file** into a folder named `sandbox` at the root of this clone. The running game will not change until **you** copy those files into an overlay and plugin that you own.
+
+There are two ways to run the same writers on your computer (GitHub Pages cannot do this; it can only show documentation):
 
 1. **Studio** — a local web page with forms.
 2. **CLI** — commands that start with `python cli.py`.
@@ -368,6 +372,10 @@ Runs the automated checks in `tests/`. These prove the writers refuse to save ou
 ### `python cli.py templates`
 
 Prints the Focus template ids, labels, categories, and risk tags, one per line, tab-separated. Use this when you cannot remember the `--template` string for `assign-focus`.
+
+### `python cli.py pages`
+
+Builds a static documentation website into `./site`. GitHub Actions publishes that folder to GitHub Pages. This command does **not** write sandbox JSON and does not install a mod. Open `site/index.html` locally if you want to preview without deploying.
 
 ### `python cli.py studio`
 

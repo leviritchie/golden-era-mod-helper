@@ -24,3 +24,5 @@ python cli.py test
 ```
 
 Those tests fail if a writer can save outside `sandbox/`.
+
+The documentation website under `site/` is a separate compiler (`python cli.py pages`). It is not a sandbox write. GitHub Pages publishes that HTML. It still cannot write into a game install.

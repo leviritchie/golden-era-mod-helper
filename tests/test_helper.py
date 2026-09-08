@@ -184,6 +184,26 @@ class DocsTests(unittest.TestCase):
         row = diagnose("nonempty_miss")
         self.assertIn("TryGetValue", row["prompt"])
 
+    def test_pages_build(self) -> None:
+        from helper.build_pages import SITE_URL, build_site
+
+        with tempfile.TemporaryDirectory() as raw:
+            dest = build_site(Path(raw) / "site")
+            index = dest / "index.html"
+            tools = dest / "21_tools.html"
+            glossary_alias = dest / "glossary.html"
+            self.assertTrue(index.is_file())
+            self.assertTrue(tools.is_file())
+            self.assertTrue(glossary_alias.is_file())
+            text = index.read_text(encoding="utf-8")
+            self.assertIn("GitHub Pages", text)
+            self.assertIn("20_glossary.html", text)
+            self.assertIn(SITE_URL, text)
+            self.assertTrue((dest / ".nojekyll").is_file())
+            self.assertTrue((dest / "styles.css").is_file())
+            hooks = (dest / "hooks.html").read_text(encoding="utf-8")
+            self.assertIn("Hook catalog", hooks)
+
     def test_hook_catalog(self) -> None:
         catalog = json.loads((DATA_DIR / "hook_catalog.json").read_text(encoding="utf-8-sig"))
         self.assertEqual(catalog["schemaVersion"], 1)
