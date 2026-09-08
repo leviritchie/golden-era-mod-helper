@@ -2,6 +2,8 @@
 
 A **teaching kit** for people who have never modded *Heroes of Might and Magic: Olden Era* (the Golden Era PC build) and need the jobs named, in order, in plain language.
 
+Public clone: https://github.com/leviritchie/golden-era-mod-helper
+
 This repository does **not** install a faction into your game. It does not need your Steam folder. Clone it anywhere, run Python, get practice JSON in `sandbox/`, then copy those shapes into **your** overlay and plugin.
 
 ## If you have never done this
