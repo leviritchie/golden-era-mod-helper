@@ -6,34 +6,129 @@ import json
 from typing import Any
 
 from .isolation import sandbox_join, write_text
+from .kit_meta import OVERLAY_REVIEW_NOTE, overlay_review_meta
 from .schemas import require_sid, validate_faction_manifest
 
+# Example identity blocks copied from the Golden Era mod's custom_factions/homm3_*.json
+# files. They are not a HoMM3-name lookup table. Tower is Human/Tundra in that mod,
+# not Dungeon/Snow. Stronghold is Dungeon/Wasteland, not an Orc town. Inferno is
+# demons/Molten (donorCitySid remains demon_city). Copy donorFactionSid and
+# nativeBiome from a live Core faction row if you are not cloning that example.
+#
+# exampleT1DonorBaseSid is a placeholder from the same vanilla family. Golden Era
+# mixed donors per line; replace this SID from live Core for each creature line.
+DEFAULT_DONORS: dict[str, dict[str, str]] = {
+    "castle": {
+        "donorFactionSid": "humans",
+        "donorCitySid": "human_city",
+        "donorFactionCoreSid": "human",
+        "nativeBiome": "Valleys",
+        "exampleT1DonorBaseSid": "esquire",
+        "exampleSource": "Golden Era homm3_castle.json identity block",
+    },
+    "rampart": {
+        "donorFactionSid": "nature",
+        "donorCitySid": "nature_city",
+        "donorFactionCoreSid": "nature",
+        "nativeBiome": "Hills",
+        "exampleT1DonorBaseSid": "twinkle",
+        "exampleSource": "Golden Era homm3_rampart.json identity block",
+    },
+    "tower": {
+        "donorFactionSid": "humans",
+        "donorCitySid": "human_city",
+        "donorFactionCoreSid": "human",
+        "nativeBiome": "Tundra",
+        "exampleT1DonorBaseSid": "esquire",
+        "exampleSource": "Golden Era homm3_tower.json identity block",
+    },
+    "inferno": {
+        "donorFactionSid": "demons",
+        "donorCitySid": "demon_city",
+        "donorFactionCoreSid": "demon",
+        "nativeBiome": "Molten",
+        "exampleT1DonorBaseSid": "trick_demon",
+        "exampleSource": "Golden Era homm3_inferno.json identity block",
+    },
+    "necropolis": {
+        "donorFactionSid": "undead",
+        "donorCitySid": "undead_city",
+        "donorFactionCoreSid": "undead",
+        "nativeBiome": "Curselands",
+        "exampleT1DonorBaseSid": "skeleton",
+        "exampleSource": "Golden Era homm3_necropolis.json identity block",
+    },
+    "dungeon": {
+        "donorFactionSid": "dungeon",
+        "donorCitySid": "dungeon_city",
+        "donorFactionCoreSid": "dungeon",
+        "nativeBiome": "Burrow",
+        "exampleT1DonorBaseSid": "trogl",
+        "exampleSource": "Golden Era homm3_dungeon.json identity block",
+    },
+    "stronghold": {
+        "donorFactionSid": "dungeon",
+        "donorCitySid": "dungeon_city",
+        "donorFactionCoreSid": "dungeon",
+        "nativeBiome": "Wasteland",
+        "exampleT1DonorBaseSid": "trogl",
+        "exampleSource": "Golden Era homm3_stronghold.json identity block",
+    },
+    "fortress": {
+        "donorFactionSid": "nature",
+        "donorCitySid": "nature_city",
+        "donorFactionCoreSid": "nature",
+        "nativeBiome": "Swamp",
+        "exampleT1DonorBaseSid": "twinkle",
+        "exampleSource": "Golden Era homm3_fortress.json identity block",
+    },
+    "conflux": {
+        "donorFactionSid": "nature",
+        "donorCitySid": "nature_city",
+        "donorFactionCoreSid": "nature",
+        "nativeBiome": "Greenlands",
+        "exampleT1DonorBaseSid": "twinkle",
+        "exampleSource": "Golden Era homm3_conflux.json identity block",
+    },
+    "cove": {
+        "donorFactionSid": "humans",
+        "donorCitySid": "human_city",
+        "donorFactionCoreSid": "human",
+        "nativeBiome": "Tropical",
+        "exampleT1DonorBaseSid": "esquire",
+        "exampleSource": "Golden Era homm3_cove.json identity block",
+    },
+    "factory": {
+        "donorFactionSid": "humans",
+        "donorCitySid": "human_city",
+        "donorFactionCoreSid": "human",
+        "nativeBiome": "Foundry",
+        "exampleT1DonorBaseSid": "esquire",
+        "exampleSource": "Golden Era homm3_factory.json identity block",
+    },
+    "bulwark": {
+        "donorFactionSid": "nature",
+        "donorCitySid": "nature_city",
+        "donorFactionCoreSid": "nature",
+        "nativeBiome": "Permafrost",
+        "exampleT1DonorBaseSid": "twinkle",
+        "exampleSource": "Golden Era homm3_bulwark.json identity block",
+    },
+}
 
-DEFAULT_BIOMES = (
-    "Valleys",
-    "Forest",
-    "Swamp",
-    "Snow",
-    "Sand",
-    "Dirt",
-    "Rough",
-    "Lava",
-    "Subterranean",
-    "Water",
+# Biome strings that appear on Golden Era faction identity blocks. Several of
+# these are custom and need a full terrain pipeline. Copy from live Core; do
+# not guess a HoMM3 terrain name (Snow, Rough, Subterranean, Water, …).
+EXAMPLE_BIOMES = tuple(
+    sorted({row["nativeBiome"] for row in DEFAULT_DONORS.values()})
 )
 
-DEFAULT_DONORS = {
-    "castle": ("humans", "human_city", "Valleys"),
-    "rampart": ("nature", "nature_city", "Forest"),
-    "tower": ("dungeon", "dungeon_city", "Snow"),
-    "inferno": ("demon", "demon_city", "Lava"),
-    "necropolis": ("undead", "undead_city", "Dirt"),
-    "dungeon": ("dungeon", "dungeon_city", "Subterranean"),
-    "stronghold": ("orc", "orc_city", "Rough"),
-    "fortress": ("nature", "nature_city", "Swamp"),
-    "conflux": ("nature", "nature_city", "Valleys"),
-    "cove": ("humans", "human_city", "Water"),
-}
+# Kept as an alias so older imports keep working. Not a complete vanilla list.
+DEFAULT_BIOMES = EXAMPLE_BIOMES
+
+
+def donor_key_help() -> str:
+    return ", ".join(sorted(DEFAULT_DONORS))
 
 
 def scaffold_faction(
@@ -47,17 +142,23 @@ def scaffold_faction(
     slug = require_sid(f"homm3_{short_name}" if not short_name.startswith("homm3_") else short_name, "short_name")
     if donor_key not in DEFAULT_DONORS:
         raise ValueError(
-            f"unknown donor_key {donor_key!r}. Known keys: {sorted(DEFAULT_DONORS)}"
+            f"unknown donor_key {donor_key!r}. Known example keys: {sorted(DEFAULT_DONORS)}"
         )
-    donor_faction, donor_city, default_biome = DEFAULT_DONORS[donor_key]
+    example = DEFAULT_DONORS[donor_key]
     identity_name = slug.removeprefix("homm3_")
+    placeholder_unit = example["exampleT1DonorBaseSid"]
     lines = unit_lines or [
         {
             "tier": 1,
             "baseSid": f"h3_{identity_name}_t1",
-            "donorFactionSid": donor_faction,
-            "donorBaseSid": "esquire",
+            "donorFactionSid": example["donorFactionSid"],
+            "donorBaseSid": placeholder_unit,
             "names": [f"{display_name} Recruit", f"{display_name} Veteran", f"{display_name} Elite"],
+            "notes": (
+                f"Placeholder donor unit {placeholder_unit!r} from the same vanilla family as "
+                f"{example['exampleSource']}. Golden Era mixed donors per line. Replace this "
+                "SID from live Core for every creature line."
+            ),
         }
     ]
     manifest = {
@@ -67,9 +168,9 @@ def scaffold_faction(
             "citySid": f"{slug}_city",
             "displayNameToken": f"{slug}_name",
             "descriptionToken": f"{slug}_desc",
-            "nativeBiome": biome or default_biome,
-            "donorFactionSid": donor_faction,
-            "donorCitySid": donor_city,
+            "nativeBiome": biome or example["nativeBiome"],
+            "donorFactionSid": example["donorFactionSid"],
+            "donorCitySid": example["donorCitySid"],
         },
         "coreOverlay": {
             "factionJson": f"DB/fractions/{slug}.json",
@@ -80,14 +181,26 @@ def scaffold_faction(
             "heroSpecializations": f"DB/heroes_specializations/specializations_{slug}.json",
             "directCityMapObject": f"{slug}_city",
             "directDwellingPrefix": f"barracks_{slug}_",
-            "donorFactionCoreSid": donor_faction.rstrip("s") if donor_faction.endswith("s") else donor_faction,
+            "donorFactionCoreSid": example["donorFactionCoreSid"],
+            "pathNote": (
+                "These paths are a sketch of Core members. A live overlay often prefixes "
+                "faction files (example: DB/fractions/13_homm3_castle.json). The packer you "
+                "own chooses the numbered prefix. Do not treat this sketch as a drop-in path."
+            ),
         },
         "unitVariants": ["", "_upg", "_upg_alt"],
         "unitLines": lines,
-        "notes": (
-            "Sandbox scaffold from this teaching kit. "
-            "This file is not installed into the game."
-        ),
+        "donorExample": {
+            "donorKey": donor_key,
+            "source": example["exampleSource"],
+            "warning": (
+                "Do not invent a donor from the HoMM3 town name. Tower in the Golden Era "
+                "example uses humans/Tundra. Stronghold uses dungeon/Wasteland. Inferno uses "
+                "demons (city shell demon_city) / Molten. Confirm every string in live Core."
+            ),
+        },
+        "kitMeta": overlay_review_meta("scaffold_faction"),
+        "notes": OVERLAY_REVIEW_NOTE,
     }
     validate_faction_manifest(manifest)
     return manifest
@@ -107,18 +220,34 @@ def write_faction_pack(manifest: dict[str, Any]) -> dict[str, str]:
     dump("faction.json", manifest)
     dump(
         "ability_overrides.json",
-        {"schemaVersion": 1, "factionSid": faction_sid, "unitOverrides": {}},
+        {
+            "schemaVersion": 1,
+            "factionSid": faction_sid,
+            "kitMeta": overlay_review_meta("scaffold_faction.ability_overrides"),
+            "notes": OVERLAY_REVIEW_NOTE,
+            "unitOverrides": {},
+        },
     )
     dump(
         "hero_overrides.json",
-        {"schemaVersion": 1, "factionSid": faction_sid, "heroOverrides": {}},
+        {
+            "schemaVersion": 1,
+            "factionSid": faction_sid,
+            "kitMeta": overlay_review_meta("scaffold_faction.hero_overrides"),
+            "notes": OVERLAY_REVIEW_NOTE,
+            "heroOverrides": {},
+        },
     )
     dump(
         "law_overrides.json",
         {
             "schemaVersion": 1,
             "factionSid": faction_sid,
-            "notes": "Prefer native Core bonus primitives. Hook-required laws stay behind an explicit proof gate.",
+            "kitMeta": overlay_review_meta("scaffold_faction.law_overrides"),
+            "notes": (
+                "Prefer native Core bonus primitives. Hook-required laws stay behind an "
+                "explicit proof gate. " + OVERLAY_REVIEW_NOTE
+            ),
             "lawOverrides": {
                 f"{faction_sid}_example_growth": {
                     "enabled": False,
@@ -143,11 +272,14 @@ def write_faction_pack(manifest: dict[str, Any]) -> dict[str, str]:
 def _checklist_markdown(manifest: dict[str, Any]) -> str:
     identity = manifest["identity"]
     faction_sid = identity["factionSid"]
+    example = manifest.get("donorExample") or {}
     lines = ["# Custom faction checklist", "", f"Faction SID: `{faction_sid}`", ""]
     lines.extend(
         [
             "This checklist is the uncoupled work order. Each box is a separate component.",
             "Do not treat finishing one box as proof that another box works.",
+            "",
+            OVERLAY_REVIEW_NOTE,
             "",
             "## Identity and Core data",
             "",
@@ -156,6 +288,8 @@ def _checklist_markdown(manifest: dict[str, Any]) -> str:
             f"- [ ] Direct city map object `{manifest['coreOverlay']['directCityMapObject']}` exists.",
             "- [ ] Localization tokens for faction name and description exist in `Lang/english/texts`.",
             "- [ ] Every custom id is unique. Duplicate ids crash native dictionaries.",
+            f"- [ ] `donorFactionSid` `{identity['donorFactionSid']}` and `nativeBiome` `{identity['nativeBiome']}` were copied from live Core (example source: {example.get('source', 'n/a')}).",
+            "- [ ] Core faction JSON path uses the numbered prefix your packer owns (`DB/fractions/13_homm3_castle.json` is an overlay example, not a drop-in name).",
             "",
             "## Units",
             "",
@@ -165,6 +299,7 @@ def _checklist_markdown(manifest: dict[str, Any]) -> str:
         names = ", ".join(line["names"])
         lines.append(
             f"- [ ] Tier {line['tier']}: `{line['baseSid']}` / upgrades ({names}). "
+            f"Donor unit `{line['donorBaseSid']}` copied from live Core, not guessed. "
             "Logic arrays match view arrays."
         )
     lines.extend(
@@ -185,19 +320,22 @@ def _checklist_markdown(manifest: dict[str, Any]) -> str:
             "## Buildings and town",
             "",
             "- [ ] Native building SIDs (`Build_Main`, `Build_Wall`, `Build_Magic_Guild`, `Build_Tier_*`, …) have custom text.",
-            "- [ ] Town uses owned Unity city world + native `BhBuilding` clicks. Not Route A posters.",
+            "- [ ] `Build_Treasury` vanilla name is Treasury (gold/day). A HoMM3-style Blacksmith is a rename of that slot, not a new engine type.",
+            "- [ ] Town uses owned Unity city world + native `BhBuilding` clicks. Not Route A posters. `cityFactory` is a Golden Era scene-pattern name, not “reuse vanilla Factory town.”",
             "- [ ] External dwellings have direct map-object rows, hire logic, billboard art, and matching tooltip text.",
             "",
             "## Focus abilities",
             "",
             "- [ ] Each active lists a real native mechanic (copied special, buff SID, spell effect, or known template).",
+            "- [ ] Tooltip text matches that mechanic. Do not write stun if the buff SID is Weaken Attack/Defense.",
             "- [ ] Focus cost is `energyLevel`. Cooldown is `cd` / `cooldown`.",
-            "- [ ] Icon keys are runtime sprite keys, not localization tokens.",
+            "- [ ] Icon keys are runtime sprite keys already in the live sprite registry, or keys your plugin allowlists. A made-up key is missing art.",
             "- [ ] Player-facing text describes shipped behavior only.",
             "",
             "## Hooks",
             "",
             "- [ ] Needed runtime hooks are listed by family, with symbols in one registry.",
+            "- [ ] Golden Era class names in the catalog are examples, not a public API. Re-pin after every Olden Era patch.",
             "- [ ] No donor-SID reverse lookup without exact context.",
             "- [ ] Fail closed if a required symbol is missing.",
             "",

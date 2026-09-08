@@ -37,5 +37,5 @@
       "names": ["Example Archer", "Example Marksman", "Example Crossbowman"]
     }
   ],
-  "notes": "In-package sample only. Not an installed game faction."
+  "notes": "In-package sample only. Overlay-review shape, not an installed game faction. Paths such as DB/fractions/homm3_example.json are a sketch; live overlays often add a numbered prefix."
 }

@@ -6,6 +6,7 @@ import json
 from typing import Any
 
 from .isolation import sandbox_join, write_text
+from .kit_meta import OVERLAY_REVIEW_NOTE, overlay_review_meta
 from .schemas import require_sid
 
 NATIVE_EFFECT_TYPES = (
@@ -38,7 +39,8 @@ def build_law_doc(
     return {
         "schemaVersion": 1,
         "factionSid": faction_sid,
-        "notes": "Native-data law sandbox file. Not packed into Core.zip by this helper.",
+        "kitMeta": overlay_review_meta("law_scaffold"),
+        "notes": OVERLAY_REVIEW_NOTE,
         "lawOverrides": {
             law_sid: {
                 "enabled": True,

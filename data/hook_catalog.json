@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "title": "Hook catalog for Olden Era mods (families taken from Golden Era work)",
-  "proof": "source/static teaching index. Obfuscated method names drift after hotfixes. Copy the family and the ownership rule, then re-pin live names in your own GameSymbols file.",
+  "proof": "source/static teaching index. Obfuscated method names drift after hotfixes. Copy the family and the ownership rule, then re-pin live names in your own GameSymbols file. Golden Era class names below are examples from one plugin, not a public API.",
   "principles": [
     "Prefer a native Core row over a Harmony patch.",
     "Put live generated names in one registry. Do not scatter them through feature code.",
@@ -16,11 +16,11 @@
       "components": ["hooks"],
       "layer": "plugin",
       "when": "Any live IL2CPP name is needed.",
-      "symbolsClass": "GameSymbols",
+      "symbolsClass": "your GameSymbols-style registry (Golden Era nested this as GameSymbols)",
       "hooks": [
         {
           "name": "Centralize pins",
-          "owner": "GameSymbols + GameMember",
+          "owner": "one symbol registry file in your plugin",
           "do": "Add a MethodSymbol or type-hint list here, then read it from the hook.",
           "doNot": "Hardcode RVAs or dump-era names in feature files. Dump is not live."
         }
@@ -32,12 +32,12 @@
       "components": ["hooks", "focus", "faction"],
       "layer": "plugin",
       "when": "You need the live battle Unit, hex, or side at spawn/init.",
-      "symbolsClass": "GameSymbols.BattleUnitInit",
+      "symbolsClass": "your BattleUnitInit pins",
       "hooks": [
         {
           "name": "Unit.Init",
-          "owner": "BattleUnitInit.Init",
-          "do": "Param[2] is a battle-side wrapper (live ObjectPublicPrcgObPrcgInTrPrcgInUnique). Bridge to TransferSide before a TransferSide-keyed lookup.",
+          "owner": "your Unit.Init prefix/postfix",
+          "do": "On one Olden Era patch used while making Golden Era, argument 2 was a battle-side wrapper (live type then: ObjectPublicPrcgObPrcgInTrPrcgInUnique). Re-pin on your GameAssembly. Bridge to TransferSide before a TransferSide-keyed lookup.",
           "doNot": "Treat the wrapper as TransferSide. Do not throw fail-closed from optional pilots on BattleLogic.Init; that method also runs during adventure-map Loader."
         }
       ]
@@ -48,35 +48,29 @@
       "components": ["focus", "hooks"],
       "layer": "plugin",
       "when": "Custom Focus abilities must appear, highlight, and accept number keys.",
-      "symbolsClass": "GameSymbols.SelectedUnitHud",
+      "symbolsClass": "your selected-unit HUD pins",
       "hooks": [
         {
-          "name": "Controls hotkey",
-          "owner": "SelectedUnitHud.ControlsHotkey",
-          "do": "Patch the HotkeyAbilityArgs handler by parameter shape. Release idButton is one-based; try idButton-1 first for custom slots.",
-          "doNot": "Add a standalone Input.GetKeyDown poll. Do not revive a legacy selected-HUD helper as a second owner."
-        },
-        {
-          "name": "Custom ability bind",
-          "owner": "Homm3CustomUiIconHook / selected HUD recovery",
-          "do": "Extract the current Unit SID through centralized BattleUi fields. Overlay custom icons; do not write into native viewBase.pics on the release path.",
-          "doNot": "Leave overlaySprite set on pooled rows. Clear custom overlay when the bound ability is not yours."
+          "name": "Action bar bind / overlay",
+          "owner": "your selected-HUD recovery hook",
+          "do": "Bind clicks and number keys from the current unit SID. Overlay custom icons without writing into native pics images that later vanilla binds reuse.",
+          "doNot": "Add a standalone Input.GetKeyDown poll as a second hotkey owner."
         }
       ]
     },
     {
       "id": "hero_ability_ui",
-      "title": "Hero battle ability buttons",
+      "title": "Hero ability UI",
       "components": ["hero", "hooks"],
       "layer": "plugin",
-      "when": "Custom commander or extra hero actions need icons and binds.",
-      "symbolsClass": "GameSymbols.WarcryHeroAbility / FocusLaws hero ability views",
+      "when": "Custom hero-bar icons or extra buttons must appear.",
+      "symbolsClass": "your hero-ability view pins",
       "hooks": [
         {
-          "name": "Hero ability icon cache",
-          "owner": "Homm3CustomHeroAbilityIconSpriteCache + Homm3WarcriesHeroAbilityHook",
-          "do": "Load packed Core hero_abilities.json rows and write exact disabled/normal/hover children. Check cache row/level counts.",
-          "doNot": "Treat a zero-row cache load as success. Do not use the quarantined Warcry availability-normalization path."
+          "name": "Hero-bar icon bind",
+          "owner": "your generated-Core icon cache + hero-bar bind",
+          "do": "Load icon keys from packed Core hero_ability rows. Fail closed if the cache loads zero custom rows.",
+          "doNot": "Broad child-image scans or WIP-sprite fallbacks as the product path."
         }
       ]
     },
@@ -86,13 +80,13 @@
       "components": ["focus", "laws", "hooks"],
       "layer": "plugin",
       "when": "A law or ability must grant, spend, or display Focus.",
-      "symbolsClass": "GameSymbols.FocusLaws",
+      "symbolsClass": "your Focus/energy pins",
       "hooks": [
         {
           "name": "Energy manager grant",
-          "owner": "FocusLaws.GrantEnergy",
-          "do": "Use the energy manager members listed in FocusLaws. Ability cost in Core is energyLevel.",
-          "doNot": "Invent a second Focus counter. Combat Focus pips are native children under BhAbilityViewBase.energyContainer."
+          "owner": "your energy-grant hook",
+          "do": "Use the energy manager members you pinned. Ability cost in Core is energyLevel.",
+          "doNot": "Invent a second Focus counter. Combat Focus pips are native children on the ability view (on one pin: BhAbilityViewBase.energyContainer). Do not cover them with an overlay sprite."
         }
       ]
     },
@@ -102,13 +96,13 @@
       "components": ["laws", "hooks"],
       "layer": "plugin",
       "when": "A design cannot be a native unitStat / outDmgMods law row.",
-      "symbolsClass": "GameSymbols.BattleEventLaws.BattleUnitApplyDamage",
+      "symbolsClass": "your BattleUnitApplyDamage pin",
       "hooks": [
         {
           "name": "Apply damage prefix",
-          "owner": "Exact BattleUnitApplyDamage MethodSymbol",
+          "owner": "exact BattleUnitApplyDamage MethodSymbol you re-pin",
           "do": "One damage owner. Pair DamageApplied postfix with a typed prefix that sets __state. Unwrap damage __0; it is not a ready Unit.",
-          "doNot": "Add stale bbgw as a silent fallback. Do not share ownership with a Direct State damage adapter."
+          "doNot": "Add a stale method name as a silent fallback. Do not share ownership with a Direct State damage adapter."
         }
       ]
     },
@@ -118,13 +112,13 @@
       "components": ["buffs", "hooks"],
       "layer": "plugin",
       "when": "You add a custom buff and need the native got-buff event.",
-      "symbolsClass": "GameSymbols.BuffDebuffLaws",
+      "symbolsClass": "your buff-dispatch pins",
       "hooks": [
         {
           "name": "BuffEventDispatch",
-          "owner": "BuffDebuffLaws.BuffEventDispatch (live Method_35 / cfin)",
+          "owner": "the Method_N you pin by field offset, not by DiffableCs index",
           "do": "Pin via field offset to short name to Method_N. Sender is the ability/native source, never the hub as both this and arg0.",
-          "doNot": "Treat DiffableCs declaration index 39 as Method_39. That raise is ChangeAbility and live-negatives with a cast exception."
+          "doNot": "Treat DiffableCs declaration index 39 as Method_39. That raise is ChangeAbility and live-negatives with a cast exception. One Golden Era pin used Method_35 / cfin for got-buff; re-pin."
         }
       ]
     },
@@ -134,23 +128,23 @@
       "components": ["billboard", "mesh", "hooks"],
       "layer": "plugin",
       "when": "A custom unit must replace a donor visual after native construction.",
-      "symbolsClass": "GameSymbols.ImportVisuals / BattleVisual / UnitPreview",
+      "symbolsClass": "your battle / preview / map visual pins",
       "hooks": [
         {
           "name": "Release battle visual",
-          "owner": "Homm3ImportReleaseBattleVisualHook",
-          "do": "On skinned_mesh, use TryGetCachedBattlePresentationTemplate only during combat Init.",
-          "doNot": "Call TryGetBattlePresentationTemplate on that path (ResManager-loads the donor and can freeze combat). Do not copy skinned-only packs over billboard bundles."
+          "owner": "your combat visual replacement hook",
+          "do": "On skinned_mesh, use a cache-only battle presentation lookup during combat Init.",
+          "doNot": "ResManager-load the donor presentation template on that path (it can freeze combat). Do not copy skinned-only packs over billboard bundles."
         },
         {
           "name": "Preview factory",
-          "owner": "Homm3ImportPreviewSyntheticMeshHook",
-          "do": "Rewrite Show.bewc's UnitViewConfig.id to the dungeon catalog id (trogl, not troglodyte). Keep Idle mesh for owned-skinned SIDs only.",
+          "owner": "your unit-preview rewrite",
+          "do": "Preview catalog ids can be shorter than the gameplay SID. Copy the live preview id. Golden Era dungeon example: preview used trogl, not troglodyte.",
           "doNot": "Stamp Sprites/Default overlay materials onto owned skinned meshes."
         },
         {
           "name": "Adventure-map billboard",
-          "owner": "Homm3ImportVisuals map finish",
+          "owner": "your map-finish hook",
           "do": "Sanitize Hex/Lit. Skip billboard finish for skinned instances and play Idle instead.",
           "doNot": "Use a plain UI sprite material on a map quad."
         }
@@ -162,13 +156,13 @@
       "components": ["town", "buildings", "hooks"],
       "layer": "plugin",
       "when": "A custom faction needs a playable town screen.",
-      "symbolsClass": "GameSymbols.FactoryCityScene / ReleaseTownUi",
+      "symbolsClass": "your city-scene / town-UI pins",
       "hooks": [
         {
           "name": "City scene replace",
-          "owner": "Homm3FactoryCitySceneRegistrar",
-          "do": "LoadScene donor, move into owned scene, keep native BhBuilding clicks.",
-          "doNot": "Use Route A posters, click relays, or city_hive aliasing as the product path."
+          "owner": "your owned city-world registrar",
+          "do": "LoadScene donor, move into owned scene, keep native BhBuilding clicks. cityFactory is a Golden Era scene-pattern name, not “reuse vanilla Factory town.”",
+          "doNot": "Use Route A posters, click relays, or alias this town onto another live faction city as the product path."
         },
         {
           "name": "Hall construction open",
@@ -184,17 +178,17 @@
       "components": ["buildings", "faction", "hooks"],
       "layer": "plugin",
       "when": "Adventure-map towns or external dwellings need custom art or hire payloads.",
-      "symbolsClass": "GameSymbols.CustomTownMapBillboard / CustomDwellingHire / CustomDwellingRandomHire",
+      "symbolsClass": "your town-billboard / dwelling-hire pins",
       "hooks": [
         {
           "name": "Town map billboard",
-          "owner": "Homm3CustomTownMapBillboard",
+          "owner": "your per-instance town billboard hook",
           "do": "Resolve visuals per instance. Keep donor ObjectConfig.id stable.",
           "doNot": "Rewrite shared donor ids to custom ids while direct custom rows also exist (duplicate-key map load)."
         },
         {
           "name": "Dwelling hire",
-          "owner": "Homm3CustomDwellingHire / RandomHireResolver",
+          "owner": "your dwelling hire resolver",
           "do": "Require exact hire payload or saved original SID for donor-to-custom reverse mapping.",
           "doNot": "Map donor barracks to a custom dwelling because 'a custom city was seen'."
         }
@@ -206,13 +200,13 @@
       "components": ["faction", "hero", "hooks"],
       "layer": "plugin",
       "when": "Custom keys are absent from the serialized sprite registry.",
-      "symbolsClass": "GameSymbols.HeroProfile / LawIcon / DialogAvatar",
+      "symbolsClass": "your portrait / law-icon / dialog-avatar pins",
       "hooks": [
         {
           "name": "Custom UI icon resolver",
-          "owner": "Homm3CustomUiIconHook",
+          "owner": "your allowlisted sprite resolver",
           "do": "Supply Sprite results for known custom key prefixes. Patch the owning component.",
-          "doNot": "Broad Image.sprite postfix or descendant Image scans. Clear overrideSprite on pooled rows."
+          "doNot": "Broad Image.sprite postfix or descendant Image scans. Clear overrideSprite on pooled rows. Do not open the resolver to arbitrary strings."
         }
       ]
     },
@@ -222,13 +216,13 @@
       "components": ["laws", "hooks"],
       "layer": "plugin",
       "when": "A law cannot be expressed as a native Core bonus primitive.",
-      "symbolsClass": "GameSymbols.CustomFactionLawRuntime and per-family law classes",
+      "symbolsClass": "your custom-law runtime gate",
       "hooks": [
         {
           "name": "Packet gate",
-          "owner": "Homm3CustomLawPacketGate",
+          "owner": "your explicit proof gate for hook-required laws",
           "do": "Keep hook-required laws behind packet proofs. Native-data replacements are the default product.",
-          "doNot": "Enable speculative mutators because a CSV mentions them. Training-damage stays inert while the packet gate is closed."
+          "doNot": "Enable speculative mutators because a CSV mentions them."
         }
       ]
     },
@@ -238,13 +232,13 @@
       "components": ["hooks"],
       "layer": "direct_state",
       "when": "You need a journaled native store write with rollback, and no Core donor verb exists.",
-      "symbolsClass": "GameSymbols.DirectStateLaws",
+      "symbolsClass": "your Direct State adapters",
       "hooks": [
         {
           "name": "Traced store adapter",
-          "owner": "runtime_mechanics adapters",
+          "owner": "your traced store adapter",
           "do": "Trace the store transaction. Still prove presentation separately.",
-          "doNot": "Treat CapLog store agreement as combat done. Do not dual-write occupancy. MovementPush remains gated until promoted."
+          "doNot": "Treat CapLog store agreement as combat done. Do not dual-write occupancy."
         }
       ]
     },
@@ -254,13 +248,13 @@
       "components": ["faction", "hooks"],
       "layer": "plugin",
       "when": "The faction nativeBiome is not a vanilla biome string the terrain dictionaries already know.",
-      "symbolsClass": "GameSymbols.TerrainMaterial / TerrainSound",
+      "symbolsClass": "your terrain material / sound pins",
       "hooks": [
         {
           "name": "Terrain material registration",
           "owner": "custom biome pack + runtime registration",
           "do": "Coordinate tiles, waters, generator config, arena views, obstruction models, and sounds. Refresh materials after render textures exist.",
-          "doNot": "Change only DB/biomes_info.json. Do not rebuild render textures from a map-build prefix before width is nonzero."
+          "doNot": "Change only DB/biomes_info.json. Do not rebuild render textures from a map-build prefix before width is nonzero. Do not guess a HoMM3 terrain name as the biome string."
         }
       ]
     },
@@ -270,12 +264,12 @@
       "components": ["hooks"],
       "layer": "plugin",
       "when": "Custom factions must appear in new-game / custom-game lists.",
-      "symbolsClass": "GameSymbols.CustomGame / MainMenu / SessionLoader",
+      "symbolsClass": "your custom-game / session-loader pins",
       "hooks": [
         {
           "name": "Custom game hub",
-          "owner": "ReleaseCustomGameUiProbe",
-          "do": "Serialized SoFractions-style assets may not know custom ids. Intercept the selector, or add the faction to the serialized list through a proven path.",
+          "owner": "your selector intercept",
+          "do": "Serialized faction-selector assets may not know custom ids. Intercept the selector, or add the faction to the serialized list through a proven path. On one Golden Era pin the selector type was SoFractions; re-pin.",
           "doNot": "Assume a Core fractions JSON row alone makes the faction pickable."
         }
       ]
@@ -286,7 +280,7 @@
       "components": ["hero", "hooks"],
       "layer": "plugin",
       "when": "Warcry, Gating, Avenger, Arcane Battery, Elite Strategem, and similar extra buttons.",
-      "symbolsClass": "WarcryHeroAbility, TowerArcaneBattery, CastleEliteStrategem, RampartAvengerLaws, DraconicDominion, SkeletalNecromancy",
+      "symbolsClass": "per-family extra-action pins in your registry",
       "hooks": [
         {
           "name": "Additive grants",

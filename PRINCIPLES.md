@@ -129,4 +129,8 @@ Stock Heroic Strike / mage commander attacks use `absolute_damage` and ignore ca
 
 ## 15. This helper cannot ship your mod
 
-The widgets write sandbox files so you can learn the shapes. Connecting those files to a live overlay, plugin, and install is your pipeline. Keep that pipeline fail-closed and validated.
+The widgets write overlay-review files in `sandbox/` so you can learn the shapes. They are not Core.zip rows. Connecting those files to a live overlay, plugin, and install is your pipeline. Keep that pipeline fail-closed and validated.
+
+## 16. Do not invent HoMM3-to-Olden-Era lookups
+
+Donor family, biome, and buff SID must be copied from live Core or from a cited example file. Tower is not automatically Dungeon. `magic_shorten_shadow_effect_1` is not stun. Obfuscated live type names in this kit are one-pin examples.

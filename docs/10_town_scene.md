@@ -6,7 +6,7 @@ This component is **the 3D/2D town you walk into**. It is not the build-tree JSO
 
 Own a vanilla-shaped Unity **city world**, paint custom art onto native `BhBuilding` slots, keep CityUI native, and open construction through HUD navigation.
 
-Factory-style name: `cityFactory` (your faction should use its own dedicated world name, not silently reuse `cityHuman2`).
+Factory-style name: `cityFactory` is a **Golden Era Unity scene-pattern name**. It is not “reuse the vanilla Factory town,” and your faction should use its own dedicated world name, not silently reuse `cityHuman2`.
 
 ## What to ship
 

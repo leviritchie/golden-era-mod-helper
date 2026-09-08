@@ -8,7 +8,7 @@ Public clone: https://github.com/leviritchie/golden-era-mod-helper
 
 **Read in a browser (no Python):** https://leviritchie.github.io/golden-era-mod-helper/
 
-This repository does **not** install a faction into your game. It does not need your Steam folder. Clone it anywhere, run Python, get practice JSON in `sandbox/`, then copy those shapes into **your** overlay and plugin.
+This repository does **not** install a faction into your game. It does not need your Steam folder. Clone it anywhere, run Python, get **overlay-review** JSON in `sandbox/` (checklists for a packer you own, not Core.zip rows), then copy those shapes into **your** overlay and plugin.
 
 ## If you have never done this
 
@@ -59,7 +59,8 @@ Generated sandbox files are gitignored except `sandbox/README.md`.
 - Not official Ubisoft / Unfrozen documentation
 - Not a BepInEx plugin you drop into the game
 - Not permission to copy copyrighted Heroes art into your own repo
-- Not a claim that a sandbox JSON file is live in combat
+- Not a claim that a sandbox JSON file is a Core.zip row or live in combat
+- Not a HoMM3-name lookup table (Tower in the Golden Era example is Human/Tundra, not Dungeon)
 
 ## License
 

@@ -2,7 +2,7 @@
 
 This component lists **runtime families**. Live obfuscated names are not a public API. After every **Olden Era** game update, re-pin in your own `GameSymbols` file. Names that worked in the Golden Era plugin on last week’s game build may be wrong on this week’s.
 
-The studio Hook catalog searches `data/hook_catalog.json`.
+The studio Hook catalog searches `data/hook_catalog.json`. Golden Era plugin class names that used to appear there were examples from one plugin, not a public API. Copy the family and the ownership rule. Re-pin live names after every Olden Era patch.
 
 ## How to use a family
 

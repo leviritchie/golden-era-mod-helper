@@ -10,6 +10,7 @@ import json
 from typing import Any
 
 from .isolation import sandbox_join, write_text
+from .kit_meta import OVERLAY_REVIEW_NOTE, overlay_review_meta
 from .schemas import require_sid
 
 WARRIOR_ABILITY_SID = "skill_warrior_ability"
@@ -103,7 +104,8 @@ def build_hero_ability_plan(
             "Custom hero-ability icon cache (generated Core icon rows + plugin PNG payload)",
             "Warcry-style bind surfaces if the extra action is a faction shout",
         ],
-        "notes": notes or "Sandbox hero-ability plan. Not applied to live Core.zip.",
+        "kitMeta": overlay_review_meta("hero_abilities"),
+        "notes": notes or OVERLAY_REVIEW_NOTE,
     }
     return plan
 

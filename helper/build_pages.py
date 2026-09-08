@@ -122,7 +122,7 @@ python cli.py studio --port 8777</code></pre>
 def _writers_body() -> str:
     return """
         <h2>Practice file writers</h2>
-        <p class="lede">The local studio and <code>python cli.py</code> commands write JSON into a <code>sandbox</code> folder inside a clone. That cannot happen on this GitHub Pages site.</p>
+        <p class="lede">The local studio and <code>python cli.py</code> commands write overlay-review JSON into a <code>sandbox</code> folder inside a clone. That cannot happen on this GitHub Pages site. Those files are checklists for a packer you own. They are not Core.zip rows.</p>
         <p>A GitHub Wiki would have the same limit: it can store markdown pages, but it cannot run the helper or install a mod.</p>
         <h3>What to clone for</h3>
         <ul>
@@ -142,7 +142,7 @@ def _writers_body() -> str:
 def _hooks_body() -> str:
     blocks: list[str] = [
         "<h2>Hook catalog</h2>",
-        "<p class=\"lede\">A hook is a plugin patch on a method that already exists in the game. Live method names look like random letters and change after game updates. This catalog names families and what not to do. It is not a copy-paste API.</p>",
+        "<p class=\"lede\">A hook is a plugin patch on a method that already exists in the game. Live method names look like random letters and change after game updates. This catalog names families and what not to do. Golden Era class names are examples from one plugin, not a public API.</p>",
     ]
     for family in families():
         hooks = family.get("hooks") or []

@@ -7,6 +7,7 @@ This repository is a **teaching kit**. It writes practice files only.
 - Write outside the `sandbox/` folder inside this clone
 - Write into a game install (`Core.zip`, `StreamingAssets`, `BepInEx`, `GameAssembly.dll` in the path)
 - Pack or patch the game
+- Emit Core.zip members (`units_logics`, numbered `DB/fractions/13_….json`, …). Sandbox JSON is overlay-review only.
 - Import a private overlay generator from some other repo
 
 There is no command-line flag that turns those writes on. That omission is the product.

@@ -11,7 +11,9 @@ This component is **text tokens and sprite keys**. It is not mechanics.
 
 ## Icon keys
 
-Runtime sprite keys look like `assassin_buff_icon` or `space_6_magic_blink`.
+Runtime sprite keys look like `assassin_buff_icon` or `space_6_magic_blink` when those keys already exist in the live serialized sprite registry.
+
+A custom key such as Golden Era’s `sub_skill_faction_homm3_ability_halberd_hook` only works if your plugin allowlists that exact key and ships the PNG. Pasting a custom key into this kit does not create the art.
 
 Not icon keys:
 

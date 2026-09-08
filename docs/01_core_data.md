@@ -56,4 +56,4 @@ Those are plugin, town, and proof components.
 
 ## Helper widget
 
-`python cli.py scaffold-faction` writes a sandbox identity file that lists the Core members you will eventually pack. It does not pack them.
+`python cli.py scaffold-faction` writes a sandbox identity file that lists the Core members you will eventually pack. It does not pack them. The `factionJson` path in that file is a sketch; live overlays often add a numbered prefix.

@@ -33,6 +33,10 @@ Imagine three separate desks:
 
 If you click **Assign Focus ability to sandbox** and then launch Olden Era, the new button will **not** be there. That is expected. The click only created a text file in this clone.
 
+Sandbox JSON is **overlay-review** shape: fields a packer you own would later turn into Core members. It is not a `units_logics` / `units_views` row you can drop into `Core.zip`. This kit does not include Golden Era’s overlay packer.
+
+Obfuscated type names and Golden Era plugin class names in the hook catalog are **examples from one pin**, not a public API. Re-pin on your `GameAssembly.dll`.
+
 ---
 
 ## First 15 minutes (do this once)
@@ -68,7 +72,7 @@ You should see a dark page titled **Golden Era Mod Helper** and a list of links 
 
 7. Click **Glossary**, then come back to **What the tools do**. Then click **Faction scaffold**, keep the example values, and click the gold button.
 
-Under the form you should see a green status line and a list of file paths. Those files now exist under `sandbox/faction_homm3_example/` in this clone. Olden Era still has not changed.
+Under the form you should see a green status line and a list of file paths. Those files now exist under `sandbox/faction_homm3_example/` in this clone. Olden Era still has not changed. Open `faction.json` and read `kitMeta`: `fileKind` is `overlay-review`, `packed` is false.
 
 8. Click **Sandbox files** on the left. You should see the same paths listed.
 
@@ -144,9 +148,11 @@ The studio does not upload anything. It does not find Steam.
 
 ## Tool: Focus ability assigner
 
-**Problem it solves.** You want a creature you clicked in combat to have a special button that spends **Focus**. Players say Focus. The JSON field is named `energyLevel`. This tool writes a reviewable file that lists cost, cooldown, name, and mechanic *shape*.
+**Problem it solves.** You want a creature you clicked in combat to have a special button that spends **Focus**. Players say Focus. The JSON field is named `energyLevel`. This tool writes an overlay-review file that lists cost, cooldown, name, and mechanic *shape*.
 
 **This is not** a hero button. Hero buttons are the Hero abilities page.
+
+**This is not** a Core ability row. A packer you own must emit `units_logics` and `units_views`. Tooltip text must match the buff SID you paste. `magic_shorten_shadow_effect_1` is Weaken Attack/Defense in live Core, not stun.
 
 **Two forms on the same page**
 
@@ -162,11 +168,14 @@ The studio does not upload anything. It does not find Steam.
 | Unit SID | Machine id of the creature. Example: `h3_example_pikeman_upg`. |
 | Template | Which known ability *shape* to copy. See the table below. |
 | Player-facing name | English title you want the UI to show. |
-| Runtime icon key | Sprite id the UI uses to find a picture, such as `assassin_buff_icon`. Not a `_name` token. Not a filename like `Orientation@4x.png`. Leave blank if you do not know yet. |
-| Description | Tooltip sentence. Describe only behavior you will actually ship. |
+| Runtime icon key | Sprite id already in the live registry, such as `assassin_buff_icon`. Not a `_name` token. Not a filename like `Orientation@4x.png`. A made-up key is missing art unless your plugin allowlists it. |
+| Description | Tooltip sentence. It must match the mechanic SID. Do not write stun while using the Weaken example SID. |
 | Focus cost (`energyLevel`) | Integer ≥ 0. This is Focus, even though the JSON field has another name. |
 | Cooldown in rounds | Integer ≥ 0. |
 | Rank | Native rank field. Copy vanilla if unsure. |
+| Live Core buff SID | Required for `focus_melee_buff` and `focus_stun_melee`. Example Weaken SID: `magic_shorten_shadow_effect_1`. This kit does not invent a stun SID. |
+| Copied unit special key / source unit SID | Required for `copied_unit_special`. |
+| Live Core spell SID | Required for `focus_spell_effect`. |
 
 ### Templates
 
@@ -174,12 +183,12 @@ A template is a *shape*, not a finished combat verb. You still must point it at 
 
 | Template id | What the shape is | When to pick it |
 | --- | --- | --- |
-| `copied_unit_special` | Points at another unit’s existing special (including alternate attacks) | You found a vanilla special that already does the job |
-| `focus_melee_buff` | Melee hit + apply a buff SID | Stun, weaken, and similar on a melee strike |
+| `copied_unit_special` | Points at another unit’s existing special | You found a vanilla special that already does the job. You must fill the special key and source unit SID. |
+| `focus_melee_buff` | Melee hit + apply a buff SID | Weaken and similar. Default teaching SID is Weaken, not stun. |
 | `focus_ranged_shot` | Ranged attack with optional projectile key | Shooters |
 | `repair_heal_percent` | Ally `heal_percent`, Gremlin Mechanic-like | Repair / heal |
 | `focus_spell_effect` | Apply a vanilla spell effect envelope | You will fill a real spell SID from live Core |
-| `focus_stun_melee` | Melee + stun-style buff (you must still set a real buff SID) | Stun actives |
+| `focus_stun_melee` | Melee + stun-style buff | Only after you paste a live Core stun buff SID. Empty on purpose. |
 | `passive_text_only` | Text only | The behavior already exists; you only need a card |
 
 ### Fields (edit-existing form)
@@ -194,8 +203,9 @@ A template is a *shape*, not a finished combat verb. You still must point it at 
 
 **Common mistakes**
 
-- Treating this file as an installed ability.
+- Treating this file as an installed ability or as a Core.zip row.
 - Using a localization token as `iconKey`.
+- Writing “stun” while `buffSid` is `magic_shorten_shadow_effect_1` (Weaken). The assigner refuses that mismatch.
 - Adding a logic row and forgetting the matching view row later in your overlay.
 - Using this page for Heroic Strike. That is a hero ability.
 
@@ -213,10 +223,12 @@ A template is a *shape*, not a finished combat verb. You still must point it at 
 | --- | --- |
 | Short name | Used to build `homm3_<short>` if you did not already type a `homm3_` SID. Example: `example` → `homm3_example`. |
 | Display name | Human label for the checklist, for example `Example`. |
-| Donor town family | Which vanilla town family you will clone **shells** from. `castle` means native code already knows Human prefabs. This is not “your town is Castle.” You still give your faction its own SIDs. |
-| Biome | Optional. If blank, the donor family’s default biome string is used. A brand-new biome is a full terrain pipeline, not this one field. |
+| Donor example key | Which Golden Era identity example to copy shells from. `castle` means Human/`Valleys` in that mod. `tower` means Human/`Tundra`, **not** Dungeon/Snow. `stronghold` means Dungeon/`Wasteland`, **not** an Orc town. `inferno` means `demons` / `Molten` (city shell `demon_city`). |
+| Biome | Optional. If blank, the Golden Era example for that key is used. Copy from live Core. Do not guess HoMM3 terrain names (`Snow`, `Rough`, `Water`, `Subterranean`). Several Golden Era biomes (`Tundra`, `Hills`, `Molten`, `Burrow`, …) need a terrain pipeline if they are not already in the game dictionaries. |
 
-Allowed donor keys: `castle`, `rampart`, `tower`, `inferno`, `necropolis`, `dungeon`, `stronghold`, `fortress`, `conflux`, `cove`.
+Allowed example keys: `castle`, `rampart`, `tower`, `inferno`, `necropolis`, `dungeon`, `stronghold`, `fortress`, `conflux`, `cove`, `factory`, `bulwark`.
+
+The sample unit line uses a **placeholder** donor creature from the same vanilla family (`esquire` for Human, `trogl` for Dungeon, `trick_demon` for Inferno, …). Golden Era mixed donors per line. Replace it from live Core.
 
 ### Files written under `sandbox/faction_<sid>/`
 
@@ -301,9 +313,9 @@ The JSON is a **grant plan** (which specialization/skill rows should contain). I
 | --- | --- |
 | Faction SID | Town identity this list belongs to |
 | City SID | Optional machine name of the city object |
-| Owned city scene name | Pattern name for the Unity town scene. Default `cityFactory` is a pattern, not “reuse the vanilla scene.” Your scene should be dedicated to your faction. |
+| Owned city scene name | Golden Era Unity scene-pattern name. Default `cityFactory` is a pattern, not “reuse the vanilla Factory town.” Your scene should be dedicated to your faction. |
 
-The table on the studio page is the native slot list (hall, marketplace, dwellings, and so on). You rename those slots and give them bonuses. You do not add a parallel building id system.
+The table on the studio page is the native slot list. Vanilla `Build_Treasury` is **Treasury** (gold per day). A HoMM3-style Blacksmith is a **rename** of that slot, not a new engine type. You do not add a parallel building id system.
 
 ---
 
@@ -331,7 +343,7 @@ If the form rejects the effect type, stop. Do not invent a new `type` string her
 
 **Problem it solves.** You need to know *which family* of running-game patches you are in (selected-unit bar, town scene, icons, and so on) before you write C#.
 
-A **hook** is a plugin patch on a method that already exists in the game. Live method names look like random letters and **change after game updates**. This catalog does **not** give you copy-paste names that survive the next patch. After an update you must re-pin names in your own plugin’s symbol list.
+A **hook** is a plugin patch on a method that already exists in the game. Live method names look like random letters and **change after game updates**. This catalog does **not** give you copy-paste names that survive the next patch. Golden Era plugin class names in the catalog are examples from one plugin, not a public API. After an update you must re-pin names in your own plugin’s symbol list.
 
 Type a search word or click Search with a blank box to list families. Each card says what that family is for and what not to do.
 
@@ -393,15 +405,15 @@ python cli.py scaffold-faction --short-name example --display-name Example --don
 | --- | --- | --- |
 | `--short-name` | yes | Becomes `homm3_example` if you did not pass a `homm3_` prefix |
 | `--display-name` | yes | Human label |
-| `--donor` | yes | One of: castle, rampart, tower, inferno, necropolis, dungeon, stronghold, fortress, conflux, cove |
-| `--biome` | no | Override biome string |
+| `--donor` | yes | Golden Era example key (`castle`, `tower`, `factory`, …). See the table above. Tower is Human/Tundra in that example. |
+| `--biome` | no | Override biome string copied from live Core |
 
 Same output as the Faction scaffold widget. The command prints the paths it wrote.
 
 ### `python cli.py assign-focus`
 
 ```text
-python cli.py assign-focus --faction-sid homm3_example --unit-sid h3_example_pikeman_upg --template focus_melee_buff --name "Halberd Hook" --description "Spend 2 Focus to stun." --focus-cost 2 --cooldown 2 --from-sample
+python cli.py assign-focus --faction-sid homm3_example --unit-sid h3_example_pikeman_upg --template focus_melee_buff --name "Weakening Strike" --description "Spend 2 Focus to strike and apply Weaken Attack and Defense." --focus-cost 2 --cooldown 2 --buff-sid magic_shorten_shadow_effect_1 --from-sample
 ```
 
 | Argument | Meaning |
@@ -413,7 +425,10 @@ python cli.py assign-focus --faction-sid homm3_example --unit-sid h3_example_pik
 | `--focus-cost` | Writes `energyLevel` |
 | `--cooldown` | Rounds |
 | `--rank` | Optional, default 1 |
-| `--icon-key` | Optional runtime sprite key |
+| `--icon-key` | Optional runtime sprite key already in the live registry |
+| `--buff-sid` | Live Core buff SID. Required for melee-buff and stun templates |
+| `--unit-special-key` / `--source-unit-sid` | Required for `copied_unit_special` |
+| `--spell-sid` | Required for `focus_spell_effect` |
 | `--from-sample` | Start from the packaged sample instead of an empty file |
 
 Writes `sandbox/ability_overrides_<faction-sid>.json`.
@@ -423,7 +438,7 @@ Writes `sandbox/ability_overrides_<faction-sid>.json`.
 Same idea as the second studio form: retune a slot that already exists.
 
 ```text
-python cli.py edit-existing-special --faction-sid homm3_example --unit-sid h3_example_pikeman_upg --name "Halberd Hook" --description "Spend 2 Focus to stun." --focus-cost 2 --cooldown 2 --icon-key assassin_buff_icon --from-sample --enabled
+python cli.py edit-existing-special --faction-sid homm3_example --unit-sid h3_example_pikeman_upg --name "Copied special retune" --description "Spend 2 Focus in melee range to use the copied native special." --focus-cost 2 --cooldown 2 --icon-key assassin_buff_icon --from-sample --enabled
 ```
 
 | Argument | Meaning |

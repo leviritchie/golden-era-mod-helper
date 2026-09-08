@@ -6,6 +6,7 @@ import json
 from typing import Any
 
 from .isolation import sandbox_join, write_text
+from .kit_meta import OVERLAY_REVIEW_NOTE, overlay_review_meta
 from .schemas import require_sid, validate_presentation_plan
 
 LANE_HELP = {
@@ -28,7 +29,7 @@ LANE_HELP = {
             "Assume a battle billboard fix also repaired map, preview, portrait, or town art.",
         ],
         "requiredHooks": [
-            "ImportVisuals / battle array billboard driver",
+            "Your battle visual replacement hook after native construction",
             "Adventure-map billboard finish (skip this if the unit later moves to skinned_mesh)",
             "Portrait / preview hooks as separate surfaces",
         ],
@@ -55,7 +56,7 @@ LANE_HELP = {
         "requiredHooks": [
             "Skinned battle-lane marker recognition",
             "Cache-only battle presentation template on combat Init",
-            "Preview synthetic mesh load using dungeon catalog id, not mesh path",
+            "Preview factory may use a shorter catalog id than the gameplay SID; copy the live preview id",
             "Idle loop on the adventure-map visual",
         ],
     },
@@ -136,8 +137,8 @@ def build_plan(
         "useWhen": help_block["useWhen"],
         "doNot": help_block["doNot"],
         "requiredHooks": help_block["requiredHooks"],
-        "notes": notes
-        or "Sandbox plan from this teaching kit. Not a Unity bundle and not an installed game file.",
+        "kitMeta": overlay_review_meta("presentation_lane"),
+        "notes": notes or OVERLAY_REVIEW_NOTE,
     }
     validate_presentation_plan(plan)
     return plan

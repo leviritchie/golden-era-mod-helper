@@ -21,7 +21,7 @@ from helper.ability_assigner import (  # noqa: E402
 )
 from helper.building_scaffold import build_plan as build_building_plan
 from helper.building_scaffold import save_plan as save_building_plan
-from helper.faction_scaffold import scaffold_faction, write_faction_pack
+from helper.faction_scaffold import donor_key_help, scaffold_faction, write_faction_pack
 from helper.hero_abilities import build_hero_ability_plan, save_plan as save_hero_plan
 from helper.isolation import IsolationError, sandbox_join
 from helper.law_scaffold import build_law_doc, save_law_doc
@@ -63,9 +63,15 @@ def main(argv: list[str] | None = None) -> int:
     faction.add_argument(
         "--donor",
         required=True,
-        help="Vanilla town family to clone shells from: castle, rampart, tower, inferno, necropolis, dungeon, stronghold, fortress, conflux, cove",
+        help=(
+            "Example donor family from the Golden Era mod (not a HoMM3-name lookup). "
+            f"Keys: {donor_key_help()}. Tower in that example is Human/Tundra, not Dungeon."
+        ),
     )
-    faction.add_argument("--biome", help="Optional biome string. If omitted, the donor family's default is used.")
+    faction.add_argument(
+        "--biome",
+        help="Optional biome string copied from live Core. If omitted, the Golden Era example for that donor key is used (Hills for rampart, Tundra for tower, …). Do not guess Snow/Rough/Water from HoMM3.",
+    )
 
     ability = sub.add_parser(
         "assign-focus",
@@ -79,7 +85,11 @@ def main(argv: list[str] | None = None) -> int:
     ability.add_argument("--focus-cost", type=int, required=True, help="Focus spent. Written as JSON energyLevel.")
     ability.add_argument("--cooldown", type=int, required=True, help="Rounds before the action can be used again")
     ability.add_argument("--rank", type=int, default=1, help="Native rank field. Default 1.")
-    ability.add_argument("--icon-key", default="", help="Runtime sprite key. Not a _name token. Not Orientation@4x.")
+    ability.add_argument("--icon-key", default="", help="Runtime sprite key already in the live registry, or a key your plugin allowlists. Not a _name token. Not Orientation@4x.")
+    ability.add_argument("--buff-sid", default="", help="Live Core buff SID. Required for focus_melee_buff and focus_stun_melee. Example Weaken SID: magic_shorten_shadow_effect_1 (not stun).")
+    ability.add_argument("--unit-special-key", default="", help="Live Core unit special key. Required for copied_unit_special.")
+    ability.add_argument("--source-unit-sid", default="", help="Live Core unit SID to copy the special from. Required for copied_unit_special.")
+    ability.add_argument("--spell-sid", default="", help="Live Core spell SID. Required for focus_spell_effect.")
     ability.add_argument("--from-sample", action="store_true", help="Start from data/sample/ability_overrides.json")
 
     existing = sub.add_parser(
@@ -191,6 +201,10 @@ def main(argv: list[str] | None = None) -> int:
                 cooldown=args.cooldown,
                 rank=args.rank,
                 icon_key=args.icon_key,
+                buff_sid=args.buff_sid,
+                unit_special_key=args.unit_special_key,
+                source_unit_sid=args.source_unit_sid,
+                spell_sid=args.spell_sid,
             )
             dest = sandbox_join(f"ability_overrides_{args.faction_sid}.json")
             save_ability_overrides(doc, dest)

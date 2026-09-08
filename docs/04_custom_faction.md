@@ -16,15 +16,32 @@ Minimum identity:
 - `nativeBiome`
 - `donorFactionSid` / `donorCitySid` — native shells the engine already knows
 
-Core output paths belong next to identity so packers do not guess:
+## Donor shells are not a HoMM3-name lookup
 
-- faction JSON
-- city logic
-- laws table
-- squad tree
-- hero subclasses / specializations
-- direct city map object id
-- direct dwelling prefix
+Do not guess “Tower uses Dungeon” or “Stronghold uses Orcs” from Heroes 3 town names. In the Golden Era example files:
+
+| Example key | Vanilla family | City shell | Biome |
+| --- | --- | --- | --- |
+| castle | humans | human_city | Valleys |
+| rampart | nature | nature_city | Hills |
+| tower | humans | human_city | Tundra |
+| inferno | demons | demon_city | Molten |
+| necropolis | undead | undead_city | Curselands |
+| dungeon | dungeon | dungeon_city | Burrow |
+| stronghold | dungeon | dungeon_city | Wasteland |
+| fortress | nature | nature_city | Swamp |
+| conflux | nature | nature_city | Greenlands |
+| cove | humans | human_city | Tropical |
+| factory | humans | human_city | Foundry |
+| bulwark | nature | nature_city | Permafrost |
+
+Copy `donorFactionSid` and `nativeBiome` from a live Core faction row if you are not cloning that example. A biome string the terrain dictionaries do not already know is a full terrain pipeline.
+
+The scaffold’s sample creature line uses a placeholder donor unit from the same vanilla family. Golden Era mixed donors per line. Replace it.
+
+## Core output paths
+
+Core output paths belong next to identity so packers do not guess. Treat them as a member list, not a drop-in filename. Live overlays often prefix faction files (`DB/fractions/13_homm3_castle.json`). The packer you own chooses the number.
 
 ## Unit lines
 
@@ -52,7 +69,7 @@ Also required, as separate work:
 
 - `DB/data.json` fractions lists and any arena/draft pools the UI uses
 - Localization
-- Serialized selector support (plugin) if `SoFractions` does not list you
+- Serialized selector support (plugin) if the baked faction-selector asset does not list you (on one Golden Era pin the type was `SoFractions`; re-pin)
 - City map object, dwelling map objects, hire logic
 - Heroes, skills with **unique** subskill ids
 - Laws

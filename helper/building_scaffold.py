@@ -6,27 +6,27 @@ import json
 from typing import Any
 
 from .isolation import sandbox_join, write_text
+from .kit_meta import OVERLAY_REVIEW_NOTE, overlay_review_meta
 from .schemas import require_sid, validate_building_plan
 
-# Native city-logic SIDs the overlay already knows how to name.
-# Creators rename and re-bonus these slots; they do not invent a second
-# click system.
+# Native city-logic SIDs. displayName is the vanilla Olden Era name where known.
+# HoMM3-style ports often rename a slot (Treasury -> Blacksmith) without changing the SID.
 NATIVE_BUILDING_SLOTS: list[dict[str, str]] = [
-    {"nativeSid": "Build_Main", "role": "hall", "displayName": "Village Hall", "levels": "Village Hall / Town Hall / City Hall / Capitol"},
-    {"nativeSid": "Build_Wall", "role": "fortification", "displayName": "Fort", "levels": "Fort / Citadel / Castle"},
-    {"nativeSid": "Build_Magic_Guild", "role": "mage_guild", "displayName": "Mage Guild", "levels": "Mage Guild 1–5"},
-    {"nativeSid": "Build_Tavern", "role": "tavern", "displayName": "Tavern", "levels": "1"},
-    {"nativeSid": "Build_Market", "role": "marketplace", "displayName": "Marketplace", "levels": "1"},
-    {"nativeSid": "Build_Treasury", "role": "blacksmith", "displayName": "Blacksmith", "levels": "1"},
-    {"nativeSid": "Build_Artifact_Market", "role": "artifact_merchants", "displayName": "Artifact Merchants", "levels": "1"},
-    {"nativeSid": "Build_Resource_Depot", "role": "resource_silo", "displayName": "Resource Silo", "levels": "1"},
-    {"nativeSid": "Build_Bank", "role": "special", "displayName": "Special Building", "levels": "1"},
-    {"nativeSid": "Build_Mother_Nature", "role": "special", "displayName": "Visitor Stat Building", "levels": "1"},
-    {"nativeSid": "Build_Mycelium_Roots", "role": "horde", "displayName": "Horde Building", "levels": "1"},
-    {"nativeSid": "Build_Resource_Depot_level_2", "role": "horde", "displayName": "Horde Building (alt slot)", "levels": "1"},
-    {"nativeSid": "Build_Spring_of_Life", "role": "grail", "displayName": "Grail Building", "levels": "1"},
-    {"nativeSid": "Build_Intelligence_Academy", "role": "lookout", "displayName": "Lookout / sight radius", "levels": "1"},
-    {"nativeSid": "Build_Training_Range", "role": "training", "displayName": "Stat trainer", "levels": "1"},
+    {"nativeSid": "Build_Main", "role": "hall", "displayName": "Village Hall", "vanillaName": "Village Hall", "typicalPortRename": "", "levels": "Village Hall / Town Hall / City Hall / Capitol"},
+    {"nativeSid": "Build_Wall", "role": "fortification", "displayName": "Fort", "vanillaName": "Fort", "typicalPortRename": "", "levels": "Fort / Citadel / Castle"},
+    {"nativeSid": "Build_Magic_Guild", "role": "mage_guild", "displayName": "Mage Guild", "vanillaName": "Mage Guild", "typicalPortRename": "", "levels": "Mage Guild 1–5"},
+    {"nativeSid": "Build_Tavern", "role": "tavern", "displayName": "Tavern", "vanillaName": "Tavern", "typicalPortRename": "", "levels": "1"},
+    {"nativeSid": "Build_Market", "role": "marketplace", "displayName": "Marketplace", "vanillaName": "Marketplace", "typicalPortRename": "", "levels": "1"},
+    {"nativeSid": "Build_Treasury", "role": "gold_income", "displayName": "Treasury", "vanillaName": "Treasury", "typicalPortRename": "Blacksmith", "vanillaEffect": "Produces gold daily.", "levels": "1"},
+    {"nativeSid": "Build_Artifact_Market", "role": "artifact_merchants", "displayName": "Artifact Merchants", "vanillaName": "Artifact Merchants", "typicalPortRename": "", "levels": "1"},
+    {"nativeSid": "Build_Resource_Depot", "role": "resource_silo", "displayName": "Resource Silo", "vanillaName": "Resource Silo", "typicalPortRename": "", "levels": "1"},
+    {"nativeSid": "Build_Bank", "role": "special", "displayName": "Bank", "vanillaName": "Bank", "typicalPortRename": "", "levels": "1"},
+    {"nativeSid": "Build_Mother_Nature", "role": "visitor_stat", "displayName": "Mother Nature", "vanillaName": "Mother Nature", "typicalPortRename": "", "levels": "1"},
+    {"nativeSid": "Build_Mycelium_Roots", "role": "horde", "displayName": "Mycelium Roots", "vanillaName": "Mycelium Roots", "typicalPortRename": "", "levels": "1"},
+    {"nativeSid": "Build_Resource_Depot_level_2", "role": "horde_alt", "displayName": "Resource Depot level 2", "vanillaName": "Resource Depot level 2", "typicalPortRename": "", "levels": "1"},
+    {"nativeSid": "Build_Spring_of_Life", "role": "grail", "displayName": "Spring of Life", "vanillaName": "Spring of Life", "typicalPortRename": "", "levels": "1"},
+    {"nativeSid": "Build_Intelligence_Academy", "role": "lookout", "displayName": "Intelligence Academy", "vanillaName": "Intelligence Academy", "typicalPortRename": "", "levels": "1"},
+    {"nativeSid": "Build_Training_Range", "role": "training", "displayName": "Training Range", "vanillaName": "Training Range", "typicalPortRename": "", "levels": "1"},
 ]
 
 
@@ -66,6 +66,10 @@ def build_plan(
         "factionSid": faction,
         "citySid": city,
         "citySceneName": city_scene_name,
+        "citySceneNameNote": (
+            "cityFactory is a Golden Era Unity scene-pattern name. It is not "
+            "'reuse the vanilla Factory town.' Give your faction its own dedicated world."
+        ),
         "townParadigm": "owned_city_world",
         "rejectedParadigms": [
             "Route A CanvasCityPanel posters",
@@ -88,7 +92,8 @@ def build_plan(
             "needMatchingTooltipText": True,
             "doNotMutateSharedDonorObjectConfigId": True,
         },
-        "notes": "Sandbox building plan. Not applied to live Core.zip.",
+        "kitMeta": overlay_review_meta("building_scaffold"),
+        "notes": OVERLAY_REVIEW_NOTE,
     }
     validate_building_plan(plan)
     return plan

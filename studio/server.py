@@ -101,6 +101,7 @@ class StudioHandler(BaseHTTPRequestHandler):
                         "sandbox": str(SANDBOX_DIR),
                         "isolation": "writes only under this clone's sandbox/ folder",
                         "donors": sorted(DEFAULT_DONORS),
+                        "donorExamples": DEFAULT_DONORS,
                         "lanes": LANE_HELP,
                         "stockCommander": STOCK_COMMANDER,
                         "nativeBuildingSlots": NATIVE_BUILDING_SLOTS,
@@ -177,6 +178,10 @@ class StudioHandler(BaseHTTPRequestHandler):
                     rank=int(body.get("rank") or 1),
                     charges=body.get("charges"),
                     icon_key=str(body.get("iconKey") or ""),
+                    buff_sid=str(body.get("buffSid") or ""),
+                    unit_special_key=str(body.get("unitSpecialKey") or ""),
+                    source_unit_sid=str(body.get("sourceUnitSid") or ""),
+                    spell_sid=str(body.get("spellSid") or ""),
                     extra_fields=body.get("extraFields") if isinstance(body.get("extraFields"), dict) else None,
                 )
                 dest = sandbox_join(f"ability_overrides_{doc['factionSid']}.json")

@@ -1,14 +1,15 @@
 {
   "schemaVersion": 1,
   "source": "golden_era_mod_helper",
-  "notes": "Teaching copies of native-shaped Focus templates. They do not mutate live Core.zip. Prefer a live donor special when one already does the job.",
+  "notes": "Teaching copies of native-shaped Focus templates. They do not mutate live Core.zip. Prefer a live donor special when one already does the job. Empty mechanic SIDs are intentional: copy them from live Core. magic_shorten_shadow_effect_1 is Weaken Attack/Defense, not stun.",
   "templates": [
     {
       "id": "copied_unit_special",
       "label": "Copied Donor Unit Special",
       "category": "Active",
       "risk": "native-copy",
-      "summary": "Copies a selected native unit special, including alternate attacks such as Assassin Fighting Style: Hit and Run.",
+      "summary": "Copies a selected native unit special, including alternate attacks. You must set unitSpecialKey (and usually sourceUnitSid) from live Core. This template does nothing until those fields are filled.",
+      "requiredMechanicFields": ["unitSpecialKey", "sourceUnitSid"],
       "defaults": {
         "nameToken": "{unitSid}_copied_special_name",
         "descriptionToken": "{unitSid}_copied_special_description",
@@ -48,7 +49,8 @@
       "label": "Focus Melee Buff/Debuff",
       "category": "Active",
       "risk": "native-template",
-      "summary": "Melee action that deals normal damage and applies a native buff or debuff SID to the target. Focus cost is energyLevel.",
+      "summary": "Melee action that deals normal damage and applies a native buff or debuff SID to the target. Focus cost is energyLevel. You must set buffSid from live Core. Example Weaken SID: magic_shorten_shadow_effect_1 (not stun).",
+      "requiredMechanicFields": ["buffSid"],
       "defaults": {
         "nameToken": "{unitSid}_focus_strike_name",
         "descriptionToken": "{unitSid}_focus_strike_description",
@@ -60,10 +62,12 @@
         "energyLevel": 1,
         "cooldown": 1,
         "rank": 1,
-        "buffSid": "magic_shorten_shadow_effect_1",
+        "buffSid": "",
+        "exampleBuffSid": "magic_shorten_shadow_effect_1",
+        "exampleBuffMeaning": "Weaken Attack and Defense. Not stun.",
         "buffDuration": 1,
         "iconKey": "",
-        "mechanicsDebt": ""
+        "mechanicsDebt": "Set buffSid to an exact live Core buff id before overlay."
       },
       "logic": {
         "attackType_": "melee",
@@ -240,7 +244,8 @@
       "label": "Focus Spell Effect",
       "category": "Active",
       "risk": "native-template",
-      "summary": "Creature Focus action that applies a selected vanilla battle spell effect.",
+      "summary": "Creature Focus action that applies a selected vanilla battle spell effect. You must set spellSid from live Core.",
+      "requiredMechanicFields": ["spellSid"],
       "defaults": {
         "nameToken": "{unitSid}_spell_effect_name",
         "descriptionToken": "{unitSid}_spell_effect_description",
@@ -291,7 +296,8 @@
       "label": "Focus Stun Strike",
       "category": "Active",
       "risk": "native-template",
-      "summary": "Melee Focus action that spends Focus to apply a one-round native stun-style debuff. Confirm the buff SID exists in live Core before shipping.",
+      "summary": "Melee Focus action that spends Focus to apply a one-round native stun-style debuff. You must set buffSid to a live Core stun buff id. This kit does not invent one. Do not reuse magic_shorten_shadow_effect_1 (that SID is Weaken).",
+      "requiredMechanicFields": ["buffSid"],
       "defaults": {
         "nameToken": "{unitSid}_stun_name",
         "descriptionToken": "{unitSid}_stun_description",

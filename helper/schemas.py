@@ -92,7 +92,8 @@ def validate_icon_key(icon_key: str, label: str) -> str:
     if lowered.endswith("_name") or lowered.endswith("_description"):
         raise SchemaError(
             f"{label} looks like a localization token ({key!r}). "
-            "Use a runtime sprite key such as assassin_buff_icon."
+            "Use a runtime sprite key that already exists in the live sprite registry "
+            "(vanilla example: assassin_buff_icon). Custom keys need a plugin allowlist."
         )
     if "@" in key or "orientation" in lowered:
         raise SchemaError(

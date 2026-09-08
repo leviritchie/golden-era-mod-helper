@@ -154,7 +154,7 @@ async function renderAbility() {
   const root = el(`
     <section>
       <h2>Focus ability assigner</h2>
-      <p class="lede">A Focus ability is a special button on a <strong>creature</strong> you selected in combat. The player resource is called Focus. The JSON field is called <code>energyLevel</code>. This form does not edit the game. It writes a review file you can later pack into Core.zip with your own overlay.</p>
+      <p class="lede">A Focus ability is a special button on a <strong>creature</strong> you selected in combat. The player resource is called Focus. The JSON field is called <code>energyLevel</code>. This form does not edit the game. It writes an <strong>overlay-review</strong> file: a checklist of fields for a packer you own. It is not a Core.zip <code>units_logics</code> row.</p>
       <p>Use the first form to <strong>add</strong> a templated ability. Use the second form to <strong>change an ability that already exists</strong> (turn it off, change the Focus cost, rename it). Field-by-field help: <a href="#docs/tools">What every tool does</a>.</p>
       <form id="abilityForm">
         <label class="check"><input type="checkbox" name="fromSample" checked> Start from the in-package sample (Example Pikeman line)</label>
@@ -163,14 +163,22 @@ async function renderAbility() {
         <label>Unit SID<span class="hint">Machine name of the creature that should get the button, for example h3_example_pikeman_upg.</span><select name="unitSid">${units}<option>h3_example_archer</option></select></label>
         <label>Template<span class="hint">Which known ability shape to copy. Meanings are listed at the bottom of this page.</span><select name="templateId">${options}</select></label>
         <div class="row">
-          ${field("nameText", "Player-facing name", "Halberd Hook", "", "English title the player should see. Your overlay later turns this into a localization token.")}
-          ${field("iconKey", "Runtime icon key (not a _name token)", "", "", "Sprite id the UI already knows, such as assassin_buff_icon. Leave blank if you do not know yet. Do not paste a filename like Icon@4x.png.")}
+          ${field("nameText", "Player-facing name", "Weakening Strike", "", "English title the player should see. Your overlay later turns this into a localization token.")}
+          ${field("iconKey", "Runtime icon key (not a _name token)", "", "", "Sprite id already in the live registry, such as assassin_buff_icon. Leave blank if you do not know yet. A made-up key is missing art unless your plugin allowlists it. Do not paste Icon@4x.png.")}
         </div>
-        <label>Player-facing description<span class="hint">Tooltip sentence. Write only the behavior you will actually ship.</span><textarea name="descriptionText">Spend 2 Focus to strike and stun the target for 1 round.</textarea></label>
+        <label>Player-facing description<span class="hint">Tooltip sentence. It must match the buff SID you paste below. magic_shorten_shadow_effect_1 is Weaken Attack/Defense, not stun.</span><textarea name="descriptionText">Spend 2 Focus to strike and apply Weaken Attack and Defense for 1 round.</textarea></label>
         <div class="row">
           ${field("energyLevel", "Focus cost (energyLevel)", "2", 'type="number" min="0"', "How many Focus pips this costs. The JSON field is named energyLevel even though players say Focus.")}
           ${field("cooldown", "Cooldown in rounds", "2", 'type="number" min="0"', "How many combat rounds before the button can be used again.")}
-          ${field("rank", "Rank", "3", 'type="number" min="1"', "Native rank field. Copy a vanilla special if you are unsure.")}
+          ${field("rank", "Rank", "1", 'type="number" min="1"', "Native rank field. Copy a vanilla special if you are unsure.")}
+        </div>
+        <div class="row">
+          ${field("buffSid", "Live Core buff SID", "magic_shorten_shadow_effect_1", "", "Required for melee-buff and stun templates. Copy from live Core. The default here is Weaken Attack/Defense. Clear it and paste a stun SID if you picked the stun template.")}
+          ${field("unitSpecialKey", "Copied unit special key", "", "", "Required for copied_unit_special. Live Core key of the special you are copying.")}
+        </div>
+        <div class="row">
+          ${field("sourceUnitSid", "Source unit SID for a copied special", "", "", "Required for copied_unit_special. The vanilla unit that already has that special.")}
+          ${field("spellSid", "Live Core spell SID", "", "", "Required for focus_spell_effect. Leave blank for other templates.")}
         </div>
         <button class="primary" type="submit">Assign Focus ability to sandbox</button>
       </form>
@@ -185,12 +193,12 @@ async function renderAbility() {
           ${field("index", "Slot index", "0", 'type="number" min="0"', "0 means the first special in that list, 1 means the second, and so on.")}
         </div>
         <label class="check"><input type="checkbox" name="enabled" checked> Enabled</label>
-        ${field("nameText", "Player-facing name", "Halberd Hook", "", "New English title for that existing slot.")}
-        <label>Description<span class="hint">New tooltip. Describe the shipped effect only.</span><textarea name="descriptionText">Spend 2 Focus in melee range to strike and stun an enemy for 1 round.</textarea></label>
+        ${field("nameText", "Player-facing name", "Copied special retune", "", "New English title for that existing slot.")}
+        <label>Description<span class="hint">New tooltip. Describe only the native special’s real effect after you open it in live Core.</span><textarea name="descriptionText">Spend 2 Focus in melee range to use the copied native special. Confirm that special in live Core before shipping this sentence.</textarea></label>
         <div class="row">
           ${field("energyLevel", "Focus cost", "2", 'type="number" min="0"', "Written as energyLevel in JSON.")}
           ${field("cooldown", "Cooldown", "2", 'type="number" min="0"', "Rounds before the action can be used again.")}
-          ${field("iconKey", "Runtime icon key", "assassin_buff_icon", "", "Sprite id, not a localization token.")}
+          ${field("iconKey", "Runtime icon key", "assassin_buff_icon", "", "A vanilla registry key used for teaching. Custom keys need an allowlist hook.")}
         </div>
         <button class="primary" type="submit">Save existing-special edit</button>
       </form>
@@ -225,7 +233,7 @@ async function submitAbility(root, url, form) {
     if (data.rank) data.rank = Number(data.rank);
     if (data.index) data.index = Number(data.index);
     const result = await postJson(url, data);
-    target.innerHTML = `${statusBox(true, `Wrote ${result.wrote}. That is a practice file in this clone. The game was not changed.`)}<p class="hint">The block below is the JSON that was saved. Open the same path under the sandbox folder on disk if you want to copy it into your own overlay later.</p><pre>${escapeHtml(JSON.stringify(result.document, null, 2))}</pre>`;
+    target.innerHTML = `${statusBox(true, `Wrote ${result.wrote}. Overlay-review JSON only. Not a Core.zip row. The game was not changed.`)}<p class="hint">The block below is a checklist for a packer you own. It must emit units_logics and units_views. This kit does not pack.</p><pre>${escapeHtml(JSON.stringify(result.document, null, 2))}</pre>`;
   } catch (error) {
     target.innerHTML = statusBox(false, error.message);
   }
@@ -234,16 +242,29 @@ async function submitAbility(root, url, form) {
 async function renderFaction() {
   const meta = await getJson("/api/meta");
   const donorOptions = meta.donors.map((d) => `<option>${escapeHtml(d)}</option>`).join("");
+  const examples = meta.donorExamples || {};
+  const donorRows = Object.keys(examples).sort().map((key) => {
+    const row = examples[key];
+    return `<tr><td><code>${escapeHtml(key)}</code></td><td><code>${escapeHtml(row.donorFactionSid)}</code></td><td><code>${escapeHtml(row.donorCitySid)}</code></td><td>${escapeHtml(row.nativeBiome)}</td><td><code>${escapeHtml(row.exampleT1DonorBaseSid)}</code></td></tr>`;
+  }).join("");
+  const donorTable = `
+        <table>
+          <tr><th>Example key</th><th>Vanilla family</th><th>City shell</th><th>Biome</th><th>Placeholder T1 donor</th></tr>
+          ${donorRows}
+        </table>
+        <p class="hint">Copied from Golden Era faction identity files. Replace every string from live Core if you are not cloning that example. The placeholder T1 donor is one vanilla unit from the same family, not a finished line-up.</p>
+  `;
   const root = el(`
     <section>
       <h2>Custom faction scaffold</h2>
       <p class="lede">A faction is a town identity plus units, heroes, laws, map objects, and UI membership. It is not one file. This form writes a starter pack and a checklist. It does not make the faction appear in the game.</p>
-      <p><strong>Donor town family</strong> means which vanilla town’s prefabs native code already knows (Human for castle, Nature for rampart, and so on). You still give your faction its own SIDs. Details: <a href="#docs/tools">What every tool does</a>.</p>
+      <p><strong>Donor town family</strong> is an example from the Golden Era mod, not a HoMM3-name lookup. Tower in that mod uses Human shells and biome Tundra, not Dungeon/Snow. Stronghold uses Dungeon/Wasteland, not an Orc town. Copy from live Core if you are not cloning that example. Details: <a href="#docs/tools">What every tool does</a>.</p>
+      <div class="doc">${donorTable}</div>
       <form id="factionForm">
         ${field("shortName", "Short name", "example", "", "A lowercase word with no spaces. If you type example, the faction SID becomes homm3_example. If you already type a homm3_ id, it is kept.")}
         ${field("displayName", "Display name", "Example", "", "Human label for the checklist, for example Example or Necropolis East.")}
-        <label>Donor town family<span class="hint">Which vanilla town’s prefabs native code already knows. castle means Human shells, rampart means Nature shells, and so on. This is not a claim that your town is Castle.</span><select name="donorKey">${donorOptions}</select></label>
-        ${field("biome", "Biome (leave blank to use the donor default)", "", "", "Adventure-map terrain family. Leave blank unless you already know you need a different vanilla biome string. A brand-new biome is a full terrain pipeline, not this one field.")}
+        <label>Donor example key<span class="hint">Select a Golden Era example. The biome and vanilla family fill from that example. This is not “your town is Castle.”</span><select name="donorKey">${donorOptions}</select></label>
+        ${field("biome", "Biome (leave blank to use the Golden Era example)", "", "", "Copy from a live Core faction row. Leave blank to use the example in the table. A biome string the terrain dictionaries do not already know is a full terrain pipeline, not this one field.")}
         <button class="primary" type="submit">Write faction pack to sandbox</button>
       </form>
       <div id="factionResult"></div>
@@ -256,7 +277,7 @@ async function renderFaction() {
       const data = Object.fromEntries(new FormData(event.target).entries());
       if (!data.biome) delete data.biome;
       const result = await postJson("/api/faction/scaffold", data);
-      target.innerHTML = `${statusBox(true, "Wrote a starter pack under sandbox/faction_<sid>/. The game was not changed.")}<p class="hint">Open CHECKLIST.md in that folder next. Each box is a different job. This pack is not a playable town.</p><pre>${escapeHtml(JSON.stringify(result.wrote, null, 2))}</pre>`;
+      target.innerHTML = `${statusBox(true, "Wrote overlay-review files under sandbox/faction_<sid>/. Not packed. The game was not changed.")}<p class="hint">Open CHECKLIST.md next. Each box is a different job. faction.json is not a Core.zip member.</p><pre>${escapeHtml(JSON.stringify(result.wrote, null, 2))}</pre>`;
     } catch (error) {
       target.innerHTML = statusBox(false, error.message);
     }
@@ -370,9 +391,12 @@ async function renderHero() {
 
 async function renderBuildings() {
   const meta = await getJson("/api/meta");
-  const slots = meta.nativeBuildingSlots.map((slot) => `
-    <tr><td><code>${escapeHtml(slot.nativeSid)}</code></td><td>${escapeHtml(slot.role)}</td><td>${escapeHtml(slot.displayName)}</td><td>${escapeHtml(slot.levels)}</td></tr>
-  `).join("");
+    const slots = meta.nativeBuildingSlots.map((slot) => {
+      const rename = slot.typicalPortRename
+        ? ` (HoMM3-style ports often rename this to ${slot.typicalPortRename})`
+        : "";
+      return `<tr><td><code>${escapeHtml(slot.nativeSid)}</code></td><td>${escapeHtml(slot.role)}</td><td>${escapeHtml(slot.displayName)}${escapeHtml(rename)}</td><td>${escapeHtml(slot.levels)}</td></tr>`;
+    }).join("");
   const root = el(`
     <section>
       <h2>Custom buildings and town</h2>
@@ -386,7 +410,7 @@ async function renderBuildings() {
       <form id="buildForm">
         ${field("factionSid", "Faction SID", "homm3_example", "", "Town identity this building list belongs to.")}
         ${field("citySid", "City SID (optional)", "homm3_example_city", "", "Machine name of the city object if you already picked one. Can match the faction plus _city.")}
-        ${field("citySceneName", "Owned city scene name", "cityFactory", "", "Pattern name for the Unity town scene. Your real scene should be dedicated to your faction, not shared with another town.")}
+        ${field("citySceneName", "Owned city scene name", "cityFactory", "", "Golden Era Unity scene-pattern name. Not “reuse vanilla Factory town.” Your real scene should be dedicated to your faction.")}
         <button class="primary" type="submit">Write building plan</button>
       </form>
       <div id="buildResult"></div>
@@ -443,7 +467,7 @@ async function renderHooks() {
   const root = el(`
     <section>
       <h2>Hook catalog</h2>
-      <p class="lede">A hook is a plugin patch on a method that already exists in the game. Live method names look like random letters and change after game updates. This catalog names <strong>families</strong> (selected-unit bar, town scene, icons, …) and what not to do. It is not a copy-paste API. After a game patch you must re-pin names in your own plugin.</p>
+      <p class="lede">A hook is a plugin patch on a method that already exists in the game. Live method names look like random letters and change after game updates. This catalog names <strong>families</strong> (selected-unit bar, town scene, icons, …) and what not to do. Golden Era class names in the catalog are examples from one plugin, not a public API. After a game patch you must re-pin names in your own plugin.</p>
       <form id="hookForm">
         ${field("q", "Search families and hooks", "", "", "Type a word such as icon, town, or ability. Leave blank and click Search to see every family.")}
         <button class="primary" type="submit">Search</button>

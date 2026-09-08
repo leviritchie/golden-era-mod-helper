@@ -8,21 +8,21 @@ Give the faction a build tree the native city UI already understands.
 
 Olden Era does not expect you to invent `MyCoolGuildHall` as a new engine type. You occupy native SIDs:
 
-| Native SID | Typical role |
-| --- | --- |
-| `Build_Main` | Village Hall → Capitol |
-| `Build_Wall` | Fort → Castle |
-| `Build_Magic_Guild` | Mage Guild levels |
-| `Build_Tavern` | Tavern |
-| `Build_Market` | Marketplace |
-| `Build_Treasury` | Blacksmith / war machine |
-| `Build_Artifact_Market` | Artifact merchants |
-| `Build_Resource_Depot` | Resource silo |
-| `Build_Bank` / `Build_Mother_Nature` / `Build_Mycelium_Roots` / … | Special / horde / visitor bonus slots |
-| `Build_Spring_of_Life` / `Build_Golden_Calf` | Grail-style |
-| `Build_Tier_1` … `Build_Tier_7` | Dwellings |
+| Native SID | Vanilla name / role | Common port rename |
+| --- | --- | --- |
+| `Build_Main` | Village Hall → Capitol | |
+| `Build_Wall` | Fort → Castle | |
+| `Build_Magic_Guild` | Mage Guild levels | |
+| `Build_Tavern` | Tavern | |
+| `Build_Market` | Marketplace | |
+| `Build_Treasury` | Treasury (gold / day) | Blacksmith / war machine |
+| `Build_Artifact_Market` | Artifact merchants | |
+| `Build_Resource_Depot` | Resource silo | |
+| `Build_Bank` / `Build_Mother_Nature` / `Build_Mycelium_Roots` / … | Vanilla special / visitor / horde slots | HoMM3-style unique buildings |
+| `Build_Spring_of_Life` / `Build_Golden_Calf` | Grail-style | |
+| `Build_Tier_1` … `Build_Tier_7` | Dwellings | |
 
-You change display names, costs, prerequisites, hire payloads, and `bonuses`. You keep the SID the native `BhBuilding` graph already uses.
+You change display names, costs, prerequisites, hire payloads, and `bonuses`. You keep the SID the native `BhBuilding` graph already uses. A HoMM3-style Blacksmith is still `Build_Treasury`.
 
 ## Bonuses versus visuals versus clicks
 

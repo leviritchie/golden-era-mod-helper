@@ -33,7 +33,7 @@ A **SID** (string id) is the stable machine name of a thing, such as `h3_pikeman
 
 A **token** is a localization key such as `h3_pikeman_stunning_blow_name`. The English (and other language) sentence lives in a language file. The combat row points at the token, not at the sentence.
 
-An **icon key** is a different string: the name the UI uses to find a sprite, such as `assassin_buff_icon`. It is not a token. It is not a Photoshop filename like `Icon_Orientation@4x.png`.
+An **icon key** is a different string: the name the UI uses to find a sprite. Vanilla example: `assassin_buff_icon` (already in the live registry). A custom key only works if your plugin allowlists it and ships the PNG. It is not a token. It is not a Photoshop filename like `Icon_Orientation@4x.png`.
 
 ## Core.zip (layer 1)
 
@@ -83,13 +83,13 @@ A **hero ability** is a button on the **hero** bar. Stock might heroes have **He
 
 **Heroic Strike** on stock Olden Era rows (the commander attack Golden Era kept) uses **absolute damage** and ignores the caster’s offence and the enemy’s defence. Raising a creature’s Attack stat does not make Heroic Strike work like classic Heroes of Might and Magic Attack-minus-Defense. That surprise is documented because people assume the old formula.
 
-A **buff** is a status table row (stun, bless, haste). An ability can apply a buff SID. If that SID is missing from Core, hire/UI screens can crash with a null config. That is a data bug, not a missing picture.
+A **buff** is a status table row (stun, bless, haste, Weaken Attack/Defense). An ability can apply a buff SID. Example live Core SID: `magic_shorten_shadow_effect_1` is Weaken Attack/Defense, **not** stun. If that SID is missing from Core, hire/UI screens can crash with a null config. That is a data bug, not a missing picture.
 
 ## Town and faction words
 
 A **faction** is a town identity: name, units, heroes, laws, city, map objects. It is not one JSON file.
 
-A **donor** is a vanilla faction/unit/building the engine already knows (for example Human / `esquire`). Custom content often **wears a donor shell** so native code can construct an object, then a hook swaps the art. Forward map: your SID → donor SID. Reverse map (donor → your SID) without exact context is how two custom factions steal each other’s dwellings.
+A **donor** is a vanilla faction/unit/building the engine already knows (for example Human / `esquire`). Custom content often **wears a donor shell** so native code can construct an object, then a hook swaps the art. Forward map: your SID → donor SID. Reverse map (donor → your SID) without exact context is how two custom factions steal each other’s dwellings. Do not guess the donor from a Heroes 3 town name: in the Golden Era example, Tower uses Human/`Tundra`, Stronghold uses Dungeon/`Wasteland`.
 
 A **billboard** is a camera-facing 2D sprite (the classic Heroes 3 look).
 
@@ -115,7 +115,9 @@ The **sandbox** is the only folder this kit is allowed to write. It will not wri
 
 A **template** (Focus templates) is a known-good *shape* of a creature ability copied from how vanilla actions look (melee + buff, heal percent, and similar). You still must point it at real buff SIDs and icons that exist in live Core.
 
-An **overlay** is software **you** own that copies your JSON into the installed `Core.zip`. This kit is not an overlay.
+An **overlay-review** file is sandbox JSON this kit writes. It is a checklist of fields for a packer you own. It is **not** a Core.zip row (`units_logics`, `DB/fractions/…`). `kitMeta.fileKind` is `overlay-review`. Proof: source/static only.
+
+An **overlay** is software **you** own that copies your JSON into the installed `Core.zip`. This kit is not an overlay. Golden Era’s packer is not included.
 
 **Proof labels** are honesty tags: “this JSON exists” is not “a player saw it in combat.” See [17_proof.md](17_proof.md).
 
@@ -124,5 +126,8 @@ An **overlay** is software **you** own that copies your JSON into the installed 
 - Install a faction into Olden Era
 - Compile your plugin
 - Patch `GameAssembly.dll`
+- Pack overlay-review JSON into Core.zip
 - Guess a donor reverse-lookup because “a custom town exists”
+- Invent a stun buff SID, or treat Weaken (`magic_shorten_shadow_effect_1`) as stun
+- Treat Golden Era plugin class names as a public API
 - Treat a log line that says “registered” as proof the player saw the feature

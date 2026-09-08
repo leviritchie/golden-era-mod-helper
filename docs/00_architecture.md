@@ -13,7 +13,7 @@ If you treat it as “a folder of JSON to edit,” you will get a faction that e
 Important members:
 
 - `DB/data.json` — available factions and global lists
-- `DB/fractions/*.json` — faction identity, icons, city name, biome
+- `DB/fractions/*.json` — faction identity, icons, city name, biome. Overlays often use a numbered prefix (`13_homm3_castle.json`). That prefix is packer-owned, not a drop-in filename from this kit.
 - `DB/objects_logic/cities/*.json` — city logic, build tree, hire rows, building costs
 - `DB/map/objects/4_interactables.json` — towns, dwellings, interactables
 - `DB/objects_logic/hires/barracks.json` — external dwelling hire

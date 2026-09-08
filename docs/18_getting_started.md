@@ -16,7 +16,7 @@ A later step is not implied by an earlier one. A JSON file on disk is not a pick
 
 1. **Identity**
    - Pick SIDs (machine names) that will not collide with vanilla or another mod.
-   - Pick which vanilla town family you will use as a **donor shell** (native prefabs the engine already knows).
+   - Pick which vanilla town family you will use as a **donor shell** (native prefabs the engine already knows). Do not guess from a Heroes 3 town name; the Faction scaffold table lists Golden Era examples (Tower is Human/Tundra there).
    - Decide whether you stay on a vanilla biome string or build a full custom terrain pipeline.
    - **This kit:** Faction scaffold writes a starter pack and `CHECKLIST.md`.
 

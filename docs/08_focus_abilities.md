@@ -12,7 +12,7 @@ In Core JSON:
 - Cooldown = `cd` (overrides often use `cooldown`)
 - Rank / charges are native fields when the donor uses them
 
-Combat Focus pips are native UI under `BhAbilityViewBase.energyContainer`. If your overlay hides that container, pips vanish even when the cost is correct.
+Combat Focus pips are native UI children on the ability view. On one Golden Era pin that container was `BhAbilityViewBase.energyContainer`. Re-pin. If your overlay sprite sits on top of those children, pips vanish even when the cost is correct.
 
 ## Authoring model
 
@@ -65,16 +65,16 @@ Studio → Focus ability assigner. Field-by-field help: [21_tools.md](21_tools.m
 CLI (run from the folder that contains `cli.py`):
 
 ```text
-python cli.py assign-focus --faction-sid homm3_example --unit-sid h3_example_pikeman_upg --template focus_melee_buff --name "Halberd Hook" --description "Spend 2 Focus to stun." --focus-cost 2 --cooldown 2 --from-sample
+python cli.py assign-focus --faction-sid homm3_example --unit-sid h3_example_pikeman_upg --template focus_melee_buff --name "Weakening Strike" --description "Spend 2 Focus to strike and apply Weaken Attack and Defense." --focus-cost 2 --cooldown 2 --buff-sid magic_shorten_shadow_effect_1 --from-sample
 ```
 
 ```text
-python cli.py edit-existing-special --faction-sid homm3_example --unit-sid h3_example_pikeman_upg --name "Halberd Hook" --description "Spend 2 Focus to stun." --focus-cost 2 --cooldown 2 --icon-key assassin_buff_icon --from-sample --enabled
+python cli.py edit-existing-special --faction-sid homm3_example --unit-sid h3_example_pikeman_upg --name "Copied special retune" --description "Spend 2 Focus in melee range to use the copied native special." --focus-cost 2 --cooldown 2 --icon-key assassin_buff_icon --from-sample --enabled
 ```
 
-Output: `sandbox/ability_overrides_<faction>.json`.
+Output: `sandbox/ability_overrides_<faction>.json` (overlay-review JSON, not a Core row).
 
-Your overlay generator (in your own repo) is what later turns that file into `units_logics` / `units_views`. This helper does not call that generator.
+Your overlay generator (in your own repo) is what later turns that file into `units_logics` / `units_views`. This helper does not call that generator. Tooltip text must match the buff SID. `magic_shorten_shadow_effect_1` is Weaken Attack/Defense, not stun.
 
 ## Hire UI NREs
 
